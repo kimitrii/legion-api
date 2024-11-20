@@ -1,0 +1,11 @@
+FROM node:22-slim
+
+WORKDIR /usr/app
+
+COPY package.json pnpm-lock.yaml* ./
+ENV WATCHPACK_POLLING=true
+ENV WRANGLER_SEND_METRICS=false
+RUN corepack enable pnpm && pnpm i
+
+COPY . .
+CMD [ "pnpm", "run", "dev" ]
