@@ -2,13 +2,16 @@
   "name": "legion-backend",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify"
+    "deploy": "wrangler deploy --minify",
+    "test": "vitest --config vitest.config.ts"
   },
   "dependencies": {
     "hono": "^4.6.11"
   },
   "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.5.29",
     "@cloudflare/workers-types": "^4.20241022.0",
+    "vitest": "^2.1.5",
     "wrangler": "^3.83.0"
   },
   "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"
