@@ -1,0 +1,16 @@
+
+services:
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env
+    command: pnpm run dev --ip 0.0.0.0
+    tty: true
+    ports:
+      - "8787:8787"
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules/
+    container_name: legion-backend
