@@ -2,3 +2,9 @@ name = "legion-backend"
 main = "src/index.ts"
 compatibility_date = "2024-11-20"
 compatibility_flags = [ "nodejs_compat" ]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "legion-db"
+database_id = "c6bc1ae3-4c33-499d-a7d2-d10e6d667822"
+migrations_dir = "./src/migrations"
