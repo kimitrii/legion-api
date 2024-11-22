@@ -35,8 +35,9 @@ jobs:
         with:
           version: 9
 
-      - name: Deploy
+      - name: Run Migrations and Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          preCommands: pnpm migration:prod
       

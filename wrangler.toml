@@ -6,5 +6,5 @@ compatibility_flags = [ "nodejs_compat" ]
 [[d1_databases]]
 binding = "DB"
 database_name = "legion-db"
-database_id = "c6bc1ae3-4c33-499d-a7d2-d10e6d667822"
+database_id = "2e03019b-39d6-4a9a-90de-90f8bd6282e2"
 migrations_dir = "./src/migrations"

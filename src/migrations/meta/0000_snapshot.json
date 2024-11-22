@@ -1,11 +1,11 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "2d97d2b1-db71-4f41-bca4-137c0d5f701f",
+  "id": "904c021b-cbb6-47a0-8e75-310e6c9a836e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "customer": {
-      "name": "customer",
+    "users": {
+      "name": "users",
       "columns": {
         "id": {
           "name": "id",
