@@ -3,14 +3,20 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
-    "test": "vitest --config vitest.config.ts"
+    "test": "vitest --config vitest.config.ts",
+    "migration:generate": "drizzle-kit generate --name=migration",
+    "migration:dev": "wrangler d1 migrations apply legion-db --local",
+    "migration:prod": "wrangler d1 migrations apply legion-db --remote=true"
   },
   "dependencies": {
-    "hono": "^4.6.11"
+    "drizzle-orm": "^0.36.3",
+    "hono": "^4.6.11",
+    "ulid": "^2.3.0"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.5.29",
     "@cloudflare/workers-types": "^4.20241022.0",
+    "drizzle-kit": "^0.28.1",
     "vitest": "^2.1.5",
     "wrangler": "^3.83.0"
   }
