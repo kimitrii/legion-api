@@ -1,20 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "strict": true,
-    "skipLibCheck": true,
-    "lib": [
-      "ESNext"
-    ],
-    "types": [
-      "@cloudflare/workers-types/2023-07-01",
-      "@cloudflare/vitest-pool-workers",
-    ],
-    "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx"
-  },
-  "include": ["./**/*.ts", "../src/env.d.ts"],
-  "exclude": ["/tests", "node_modules"]
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"strict": true,
+		"skipLibCheck": true,
+		"importHelpers": true,
+		"lib": ["ESNext"],
+		"types": [
+			"@cloudflare/workers-types/2023-07-01",
+			"@cloudflare/vitest-pool-workers"
+		],
+		"jsx": "react-jsx",
+		"jsxImportSource": "hono/jsx"
+	},
+	"include": ["./**/*.ts", "../src/env.d.ts"],
+	"exclude": ["/tests", "node_modules"]
 }

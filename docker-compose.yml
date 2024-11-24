@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.dev
     env_file:
       - .env
-    command: pnpm run dev --ip 0.0.0.0
+    command: sh -c "pnpm migration:dev && pnpm run dev --ip 0.0.0.0"
     tty: true
     ports:
       - "8787:8787"

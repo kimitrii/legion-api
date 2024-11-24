@@ -14,6 +14,7 @@
     "ulid": "^2.3.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@cloudflare/vitest-pool-workers": "^0.5.29",
     "@cloudflare/workers-types": "^4.20241022.0",
     "drizzle-kit": "^0.28.1",
