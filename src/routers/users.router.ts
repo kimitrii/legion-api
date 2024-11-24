@@ -5,7 +5,7 @@ import type { Env } from '../types/drizzleTypes'
 
 const usersRouters = new Hono<{ Bindings: Env }>()
 
-usersRouters.get('/:id', async (c) => {
+usersRouters.get('/', async (c) => {
 	const db = drizzle(c.env.DB)
 
 	await db.insert(users).values({
