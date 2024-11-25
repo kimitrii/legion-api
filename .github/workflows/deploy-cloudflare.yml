@@ -16,6 +16,21 @@ jobs:
         with:
           version: 9
 
+      - name: Create wrangler.toml dynamically
+        run: |
+          cat <<EOF > wrangler.toml
+          name = "${{ secrets.PROJECT_NAME }}"
+          main = "src/index.ts"
+          compatibility_date = "2024-11-20"
+          compatibility_flags = ["nodejs_compat"]
+
+          [[d1_databases]]
+          binding = "DB"
+          database_name = "${{ secrets.D1_DATABASE_NAME }}"
+          database_id = "${{ secrets.D1_DATABASE_ID }}"
+          migrations_dir = "./src/migrations"
+          EOF
+
       - name: Run Tests, Migrations and Deploy using Cloudflare CLI environment
         uses: cloudflare/wrangler-action@v3
         with:
