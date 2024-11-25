@@ -6,19 +6,19 @@ on:
       - main
 jobs:
   test:
-    name: Run tests
+    name: Run Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: git fetch --prune --unshallow --tags
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Run all tests
-        run: pnpm run test
+      - name: Run tests using Cloudflare CLI environment
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          preCommands: pnpm test
+          command: logout

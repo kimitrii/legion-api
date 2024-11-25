@@ -1,0 +1,13 @@
+# Example Cloudflare Workers configuration
+# This file is a template. Replace the placeholders with your actual configuration.
+
+name = "<your-project-name>" # Replace with your project name
+main = "src/index.ts"
+compatibility_date = "2024-11-20"
+compatibility_flags = [ "nodejs_compat" ]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "<your-database-name>" # Replace with the name of your D1 database
+database_id = "<your-database-id>" # Replace with your actual D1 database ID
+migrations_dir = "./src/migrations" 
