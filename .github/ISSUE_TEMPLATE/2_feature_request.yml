@@ -1,0 +1,23 @@
+name: Suggest a New Feature
+description: Suggest a new feature, functionality, or improvement for Legion.
+labels: ['feature request']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening a new issue, please [search](https://github.com/kimitrii/legion-backend/issues?q=is%3Aissue) to ensure you are not suggesting something duplicate. If you find an equivalent issue, consider contributing additional information if necessary.
+  - type: textarea
+    attributes:
+      label: Description
+      description: What would you like to improve? Please describe your suggestion and what need you have today that this suggestion would address.
+      placeholder: |
+        I think the ... this would be better if ... because I had difficulty with...
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Implementation Suggestion
+      description: Have you thought of how this could be implemented? Share any images, code, or references that you think are helpful for implementing this suggestion.
+      placeholder: |
+        We could change ... to add ... I made some draws of how this could look:
+        ![image](https://example.com/image)

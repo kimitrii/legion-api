@@ -1,0 +1,58 @@
+name: Report Bug
+description: Report a problem or unexpected behavior.
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening a new issue, please [search](https://github.com/kimitrii/legion-backend/issues) to ensure you are not reporting a duplicate problem. If you find an equivalent issue, consider contributing additional information if necessary.
+  - type: textarea
+    attributes:
+      label: Description
+      description: What kind of issue did you encounter? Please describe it clearly and include any error messages or logs if applicable.
+      placeholder: |
+        I encountered an issue when trying to call the API endpoint ... with the parameters ...
+        The error message was:
+        ```json
+        {
+          "error": "Invalid request"
+        }
+        ```
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce the issue
+      description: What steps are required for someone else to reproduce this issue?
+      placeholder: |
+        1. Send a POST request to /api/endpoint with the following body:
+        2. Observe the error response:
+        ```json
+        {
+          "error": "Invalid data"
+        }
+        ```
+        4. If possible, provide any relevant request headers (e.g., Authorization, Content-Type) and the full response (including HTTP status code).
+        5. Ensure to mention if the issue occurs rarelly or every time the request is made.
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: HTTP Methods tested
+      description: Which HTTP methods (GET, POST, PUT, DELETE) did you test when encountering this issue?
+      multiple: true
+      options:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - PATCH
+        - Other
+  - type: textarea
+    attributes:
+      label: Possible Solution
+      description: Have you thought of anything that might resolve this issue? If so, please share it below.
+      placeholder: |
+        Instead of ..., we could change ... to...
+        Here is an example of how it might look:
+        ![image](https://example.com/image)
