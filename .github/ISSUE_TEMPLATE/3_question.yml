@@ -1,0 +1,29 @@
+name: Ask a Question
+description: Do you have a question about the repository, code, or implementation of something in Legion? Ask a question.
+labels: ['question']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening a new issue, please [search](https://github.com/kimitrii/legion-backend/issues?q=is%3Aissue) to see if your question has already been answered.
+  - type: dropdown
+    attributes:
+      label: Topic
+      description: What is the topic of your question?
+      multiple: true
+      options:
+        - API
+        - Code
+        - Repository
+        - Contribution
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Question
+      description: What is your question? Be clear and include relevant information so others can assist you.
+      placeholder: |
+        I couldn't understand how to...
+    validations:
+      required: true
