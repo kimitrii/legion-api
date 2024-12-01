@@ -13,4 +13,4 @@ services:
     volumes:
       - .:/usr/app
       - /usr/app/node_modules/
-    container_name: legion-backend
+    container_name: legion-api
