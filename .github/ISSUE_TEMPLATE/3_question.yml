@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before opening a new issue, please [search](https://github.com/kimitrii/legion-backend/issues?q=is%3Aissue) to see if your question has already been answered.
+        Before opening a new issue, please [search](https://github.com/kimitrii/legion-api/issues?q=is%3Aissue) to see if your question has already been answered.
   - type: dropdown
     attributes:
       label: Topic

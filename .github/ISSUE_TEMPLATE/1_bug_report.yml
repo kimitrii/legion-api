@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Before opening a new issue, please [search](https://github.com/kimitrii/legion-backend/issues) to ensure you are not reporting a duplicate problem. If you find an equivalent issue, consider contributing additional information if necessary.
+        Before opening a new issue, please [search](https://github.com/kimitrii/legion-api/issues) to ensure you are not reporting a duplicate problem. If you find an equivalent issue, consider contributing additional information if necessary.
   - type: textarea
     attributes:
       label: Description

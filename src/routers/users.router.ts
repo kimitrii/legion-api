@@ -1,7 +1,7 @@
 import { drizzle } from 'drizzle-orm/d1'
 import { Hono } from 'hono'
 import { users } from '../db/schema'
-import type { Env } from '../types/drizzleTypes'
+import type { Env } from '../types/bindTypes'
 
 const usersRouters = new Hono<{ Bindings: Env }>()
 
