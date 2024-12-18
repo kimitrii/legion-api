@@ -13,7 +13,7 @@ The **Legion API** powers the community hub for Kimitri’s fans, providing endp
 
 ## Quick Start
 
-To run the Legion API locally, make contributions, or integrate it with your application, follow the  [Contribution Guidelines](./CODE_OF_CONDUCT.md).
+To run the Legion API locally, make contributions, or integrate it with your application, follow the  [Contribution Guidelines](./CONTRIBUTING.md).
 
 ## Security
 
@@ -23,10 +23,9 @@ For information on reporting security vulnerabilities in Legion API, see
 ## REST APIs
 
 Lists API endpoints for easier integration with your application. You can call the Legion API in any language. 
->⚠We do not provide sandbox URL. If you need endpoints to assist in developing your application, follow the [Contribution Guidelines](./CODE_OF_CONDUCT.md) to run Legion API locally.
+>⚠We do not provide sandbox URL. If you need endpoints to assist in developing your application, follow the [Contribution Guidelines](./CONTRIBUTING.md) to run Legion API locally.
 
 ### Authentication
-
 
 
 ------------------------------------------------------------------------------------------
