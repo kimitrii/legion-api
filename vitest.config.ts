@@ -1,3 +1,4 @@
+import path from 'node:path'
 import {
 	defineWorkersConfig,
 	readD1Migrations
@@ -6,6 +7,12 @@ import {
 export default defineWorkersConfig(async () => {
 	const migrations = await readD1Migrations('./src/migrations')
 	return {
+		resolve: {
+			alias: {
+				'@src': path.resolve(__dirname, './src'),
+				'@tests': path.resolve(__dirname, './tests')
+			}
+		},
 		test: {
 			globals: true,
 			poolOptions: {
