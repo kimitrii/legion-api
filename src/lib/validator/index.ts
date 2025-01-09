@@ -10,8 +10,9 @@ export const validator = {
 	string: (): StringValidation => new StringValidation(),
 	number: (): NumberValidation => new NumberValidation(),
 	boolean: (): BooleanValidation => new BooleanValidation(),
-	schema: (schema: Record<string, ValidationBase>): SchemaValidation =>
-		new SchemaValidation(schema),
+	schema: <T extends Record<string, unknown>>(
+		schema: Record<keyof T, ValidationBase>
+	): SchemaValidation<T> => new SchemaValidation(schema),
 	object: (schema: Record<string, ValidationBase>): ObjectValidation =>
 		new ObjectValidation(schema),
 	arrayOf: (schema: ValidationBase): ArrayValidation =>
