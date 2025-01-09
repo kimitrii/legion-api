@@ -18,7 +18,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'number'
+			failedValidator: 'number',
+			field: 'data'
 		})
 	})
 
@@ -38,7 +39,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'min'
+			failedValidator: 'min',
+			field: 'data'
 		})
 	})
 
@@ -58,7 +60,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'max'
+			failedValidator: 'max',
+			field: 'data'
 		})
 	})
 
@@ -70,13 +73,13 @@ describe('Validator Library', () => {
 		const validData = { data: 5 }
 		const validResult = schema.check(validData)
 
-		const invalidData = {}
-		const invalidResult = schema.check(invalidData)
+		const nullData = {}
+		const nullResult = schema.check(nullData)
 
 		expect(validResult).toStrictEqual({
 			success: true
 		})
-		expect(invalidResult).toStrictEqual({
+		expect(nullResult).toStrictEqual({
 			success: true
 		})
 	})
