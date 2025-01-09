@@ -18,7 +18,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'ulid'
+			failedValidator: 'ulid',
+			field: 'data'
 		})
 	})
 
@@ -38,7 +39,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'uuid'
+			failedValidator: 'uuid',
+			field: 'data'
 		})
 	})
 
@@ -58,7 +60,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'url'
+			failedValidator: 'url',
+			field: 'data'
 		})
 	})
 
@@ -78,7 +81,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'string'
+			failedValidator: 'string',
+			field: 'data'
 		})
 	})
 
@@ -98,7 +102,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'min'
+			failedValidator: 'min',
+			field: 'data'
 		})
 	})
 
@@ -118,7 +123,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'max'
+			failedValidator: 'max',
+			field: 'data'
 		})
 	})
 
@@ -138,7 +144,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'email'
+			failedValidator: 'email',
+			field: 'data'
 		})
 	})
 
@@ -158,7 +165,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'dateTime'
+			failedValidator: 'dateTime',
+			field: 'data'
 		})
 	})
 
@@ -178,7 +186,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'date'
+			failedValidator: 'date',
+			field: 'data'
 		})
 	})
 
@@ -198,7 +207,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'date'
+			failedValidator: 'date',
+			field: 'data'
 		})
 	})
 
@@ -218,7 +228,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'date'
+			failedValidator: 'date',
+			field: 'data'
 		})
 	})
 })

@@ -28,7 +28,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'ulid'
+			failedValidator: 'ulid',
+			field: 'data'
 		})
 	})
 })

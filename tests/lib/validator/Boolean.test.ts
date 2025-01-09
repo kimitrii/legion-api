@@ -18,7 +18,8 @@ describe('Validator Library', () => {
 		})
 		expect(invalidResult).toStrictEqual({
 			success: false,
-			failedValidator: 'boolean'
+			failedValidator: 'boolean',
+			field: 'data'
 		})
 	})
 })
