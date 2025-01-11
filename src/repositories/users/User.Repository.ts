@@ -60,4 +60,13 @@ export class UserRepository {
 
 		return data
 	}
+
+	public async delete(id: string): Promise<void> {
+		await this.db
+			.update(users)
+			.set({
+				isDeleted: true
+			})
+			.where(eq(users.id, id))
+	}
 }
