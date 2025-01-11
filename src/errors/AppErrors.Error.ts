@@ -1,7 +1,8 @@
-export class AppError extends Error {
+export class AppError<T> extends Error {
 	public constructor({
 		name,
-		message
+		message,
+		cause
 	}: {
 		name:
 			| 'Bad Request'
@@ -16,9 +17,11 @@ export class AppError extends Error {
 			| 'Internal Server Error'
 			| 'Service Unavailable'
 		message: string
+		cause?: T
 	}) {
 		super()
 		this.message = message
 		this.name = name
+		this.cause = cause
 	}
 }

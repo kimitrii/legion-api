@@ -23,7 +23,7 @@ export const errorsHandler = (
 
 	if (mappedError) {
 		return c.json(
-			{ success: false, message: error.message },
+			{ success: false, message: error.message, cause: error.cause },
 			mappedError.status
 		)
 	}
@@ -31,7 +31,8 @@ export const errorsHandler = (
 	return c.json(
 		{
 			success: false,
-			message: 'Internal server error'
+			message: 'Internal server error',
+			cause: error.cause
 		},
 		500
 	)
