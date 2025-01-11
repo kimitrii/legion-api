@@ -1,20 +1,8 @@
-import { drizzle } from 'drizzle-orm/d1'
+import { CreateUserHandler } from '@src/handlers/users/CreateUser/CreateUser.Handler'
 import { Hono } from 'hono'
-import { users } from '../db/user.schema'
-import type { Env } from '../types/bindTypes'
 
-const usersRouters = new Hono<{ Bindings: Env }>()
+const usersRouters = new Hono()
 
-usersRouters.get('/', async (c) => {
-	const db = drizzle(c.env.DB)
-
-	await db.insert(users).values({
-		name: 'Eric'
-	})
-
-	const dbUsers = await db.select().from(users)
-
-	return c.json(dbUsers[0])
-})
+usersRouters.post('/users', ...CreateUserHandler)
 
 export default usersRouters
