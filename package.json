@@ -13,6 +13,7 @@
 		"commitlint": "commitlint --edit"
 	},
 	"dependencies": {
+		"bcryptjs": "^2.4.3",
 		"drizzle-orm": "^0.36.4",
 		"hono": "^4.6.14",
 		"ulid": "^2.3.0"
@@ -23,6 +24,7 @@
 		"@cloudflare/workers-types": "^4.20241218.0",
 		"@commitlint/cli": "^19.6.1",
 		"@commitlint/config-conventional": "^19.6.0",
+		"@types/bcryptjs": "^2.4.6",
 		"drizzle-kit": "^0.28.1",
 		"husky": "^9.1.7",
 		"vitest": "^2.1.8",
