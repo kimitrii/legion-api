@@ -22,8 +22,6 @@ describe('Create User handler E2E', () => {
 	})
 
 	test('should create user successfully with username, password and email', async () => {
-		const db = drizzle(env.DB)
-
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe123',
@@ -64,8 +62,6 @@ describe('Create User handler E2E', () => {
 	})
 
 	test('should create user successfully with username', async () => {
-		const db = drizzle(env.DB)
-
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe123'
@@ -103,8 +99,6 @@ describe('Create User handler E2E', () => {
 	})
 
 	test('should create user successfully with username and email', async () => {
-		const db = drizzle(env.DB)
-
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe123',
@@ -144,8 +138,6 @@ describe('Create User handler E2E', () => {
 	})
 
 	test('should create user successfully with username and password', async () => {
-		const db = drizzle(env.DB)
-
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe123',

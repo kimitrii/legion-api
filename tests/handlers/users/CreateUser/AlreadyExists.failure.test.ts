@@ -27,8 +27,6 @@ describe('Create User failure tests', () => {
 		const usersRepository = new UserRepository(env.DB)
 		const createUserService = new CreateUserService(usersRepository)
 
-		const db = drizzle(env.DB)
-
 		await db.insert(users).values({
 			id: '01JHBDWAXFPAKAFK38E1MAM01W',
 			name: 'John Doe',
@@ -58,8 +56,6 @@ describe('Create User failure tests', () => {
 	})
 
 	test('should fail when user with username already exists - E2E', async () => {
-		const db = drizzle(env.DB)
-
 		await db.insert(users).values({
 			id: '01JHBDWAXFPAKAFK38E1MAM01W',
 			name: 'John Doe',
@@ -102,8 +98,6 @@ describe('Create User failure tests', () => {
 	})
 
 	test('should fail when user with email already exists - E2E', async () => {
-		const db = drizzle(env.DB)
-
 		await db.insert(users).values({
 			id: '01JHBDWAXFPAKAFK38E1MAM01W',
 			name: 'John Doe',
