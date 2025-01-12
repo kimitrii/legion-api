@@ -2,7 +2,7 @@ import { users } from '@src/db/user.schema'
 import { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { FindByParams } from '@src/types/userRepository'
-import { type SQL, eq, or } from 'drizzle-orm'
+import { eq, or } from 'drizzle-orm'
 import { type DrizzleD1Database, drizzle } from 'drizzle-orm/d1'
 
 export class UserRepository {
@@ -19,23 +19,27 @@ export class UserRepository {
 		email,
 		username
 	}: FindByParams): Promise<User[] | null> {
-		let filter: SQL<unknown> | undefined = undefined
+		const conditions = []
 
-		if (id && email && username) {
-			filter = or(
-				eq(users.id, id),
-				eq(users.email, email),
-				eq(users.username, username)
-			)
-		} else if (id) {
-			filter = eq(users.id, id)
-		} else if (email) {
-			filter = eq(users.email, email)
-		} else if (username) {
-			filter = eq(users.username, username)
+		if (id) {
+			conditions.push(eq(users.id, id))
+		}
+		if (email) {
+			conditions.push(eq(users.email, email))
+		}
+		if (username) {
+			conditions.push(eq(users.username, username))
 		}
 
-		const getUser = await this.db.select().from(users).where(filter).limit(1)
+		if (conditions.length === 0) {
+			return null
+		}
+
+		const getUser = await this.db
+			.select()
+			.from(users)
+			.where(or(...conditions))
+			.limit(1)
 
 		if (getUser.length === 0) {
 			return null
