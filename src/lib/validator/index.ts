@@ -11,8 +11,9 @@ export const validator = {
 	number: (): NumberValidation => new NumberValidation(),
 	boolean: (): BooleanValidation => new BooleanValidation(),
 	schema: <T extends Record<string, unknown>>(
-		schema: Record<keyof T, ValidationBase>
-	): SchemaValidation<T> => new SchemaValidation(schema),
+		schema: Record<keyof T, ValidationBase>,
+		options?: { strict: boolean }
+	): SchemaValidation<T> => new SchemaValidation(schema, options),
 	object: (schema: Record<string, ValidationBase>): ObjectValidation =>
 		new ObjectValidation(schema),
 	arrayOf: (schema: ValidationBase): ArrayValidation =>
