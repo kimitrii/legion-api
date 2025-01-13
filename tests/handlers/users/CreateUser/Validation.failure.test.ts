@@ -447,4 +447,27 @@ describe('Create User Input Validation - E2E', () => {
 			}
 		})
 	})
+
+	test('should throw a Bad Request error when invalid JSON is provided', async () => {
+		const payload =
+			'{ name: "John Doe", username: "johndoe123", email: asdf@test.com, password: "randomPassword" }'
+
+		const res = await app.request(
+			'/users',
+			{
+				method: 'POST',
+				headers,
+				body: payload
+			},
+			env
+		)
+
+		const result = await res.json()
+
+		expect(res.status).toBe(400)
+		expect(result).toStrictEqual({
+			success: false,
+			message: 'Invalid JSON format in request body'
+		})
+	})
 })
