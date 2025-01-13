@@ -25,8 +25,66 @@ For information on reporting security vulnerabilities in Legion API, see
 Lists API endpoints for easier integration with your application. You can call the Legion API in any language. 
 >⚠We do not provide sandbox URL. If you need endpoints to assist in developing your application, follow the [Contribution Guidelines](./CONTRIBUTING.md) to run Legion API locally.
 
-### Authentication
+### Users
 
+<details>
+ <summary><code>POST</code> <code><b>/auth/user</b></code> <code>Create New User</code></summary>
+ 
+#### Create New User
+Allows the creation of a new user in the Legion ecosystem.
+
+#### Request 
+
+> #### Header Parameters 
+> | name         |  required | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
+> | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+
+> #### Body Schema
+> | name          |  type     | Required | description                         |
+> |---------------|-----------|----------|-------------------------------------|
+> | name          |  string   |**yes**| 	The name for the new user. |
+> | username      |  string   |**yes**| 	The user for the new user. |
+> | password      |  string   |**no** | 	The password for the user. |
+> | email         |  string   |**no** | 	The email for the user.    |
+
+#### Response 
+
+> #### Sample Successful Response 
+>
+> Status Code: `201` <br>
+> application/json
+>```json
+>{
+>    "success": true,
+>    "message": "User created successfully!",
+>    "data": {
+>      "id": "01JEVAG858D9NP6A1NMTKXPRRA",
+>      "name": "John Doe",
+>      "email": "john.doe@example.com",
+>      "tokenType": "Bearer",
+>      "expiresIn": 31668,
+>      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+>    }
+>}
+>```
+
+
+> #### Response Schema
+> application/json
+>| Key         | Type     | Description                                      |
+>|-------------|----------|--------------------------------------------------|
+>| success     | boolean  | Indicates whether the request was successful.    |
+>| message     | string   | A message providing additional context.          |
+>| data        | object   | Contains user authentication details.            |
+>| data.id       | string   | Unique identifier for the created user (ulid format).  |
+>| data.name     | string   | Name for the created user.                             |
+>| data.email    | string   | Email for the created user.                            |
+>| data.createdAt    | string   | Date of the user was created (ISO 8601 format).    |
+
+
+</details>
 
 ------------------------------------------------------------------------------------------
 
