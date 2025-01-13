@@ -62,10 +62,9 @@ Allows the creation of a new user in the Legion ecosystem.
 >    "data": {
 >      "id": "01JEVAG858D9NP6A1NMTKXPRRA",
 >      "name": "John Doe",
+>      "username": "jhondoe123",
 >      "email": "john.doe@example.com",
->      "tokenType": "Bearer",
->      "expiresIn": 31668,
->      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+>      "createdAt": "2025-01-13T03:14:41.000Z"
 >    }
 >}
 >```
