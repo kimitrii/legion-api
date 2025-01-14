@@ -5,7 +5,7 @@ import app from '@src/index'
 import { UserRepository } from '@src/repositories/users/User.Repository'
 import { CreateUserService } from '@src/services/users/CreateUser/CreateUser.Service'
 import { drizzle } from 'drizzle-orm/d1'
-import { afterEach, beforeAll, describe, expect, test } from 'vitest'
+import { afterEach, beforeAll, describe, expect, test, vitest } from 'vitest'
 
 describe('Create User failure tests', () => {
 	const db = drizzle(env.DB)
@@ -27,6 +27,21 @@ describe('Create User failure tests', () => {
 		const usersRepository = new UserRepository(env.DB)
 		const createUserService = new CreateUserService(usersRepository)
 
+		vitest.spyOn(usersRepository, 'findOneByOr').mockResolvedValueOnce([
+			{
+				id: '01JHBDWAXFPAKAFK38E1MAM01W',
+				name: 'John Doe',
+				username: 'johndoe123',
+				password: 'secureP@ssw0rd!',
+				email: 'johndoe@example.com',
+				isActive: true,
+				isDeleted: false,
+				kats: 0,
+				rank: 0,
+				createdAt: new Date().toISOString()
+			}
+		])
+
 		await db.insert(users).values({
 			id: '01JHBDWAXFPAKAFK38E1MAM01W',
 			name: 'John Doe',
@@ -40,15 +55,10 @@ describe('Create User failure tests', () => {
 			createdAt: new Date().toISOString()
 		})
 
-		const payload: IUsersDTO = {
-			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+		const payload = {
 			name: 'John Doe',
-			username: 'johndoe1234',
-			email: 'johndoe@example.com',
-			createdAt: new Date().toISOString(),
-			isActive: true,
-			isDeleted: false
-		}
+			username: 'johndoe1234'
+		} as IUsersDTO
 
 		await expect(createUserService.execute(payload)).rejects.toThrowError(
 			'This user already exists'

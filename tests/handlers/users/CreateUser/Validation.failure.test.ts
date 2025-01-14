@@ -448,6 +448,36 @@ describe('Create User Input Validation - E2E', () => {
 		})
 	})
 
+	test('should fail when there is a property not defined in the schema', async () => {
+		const payload = JSON.stringify({
+			name: 'John Doe',
+			username: 'johndoe123',
+			test: '1234567'
+		})
+
+		const res = await app.request(
+			'/users',
+			{
+				method: 'POST',
+				headers,
+				body: payload
+			},
+			env
+		)
+
+		const result = await res.json()
+
+		expect(res.status).toBe(400)
+		expect(result).toStrictEqual({
+			success: false,
+			message: 'Validation failed',
+			cause: {
+				cause: 'is not unknownPropertiesDetected',
+				field: ['test']
+			}
+		})
+	})
+
 	test('should throw a Bad Request error when invalid JSON is provided', async () => {
 		const payload =
 			'{ name: "John Doe", username: "johndoe123", email: asdf@test.com, password: "randomPassword" }'
