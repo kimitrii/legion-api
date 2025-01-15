@@ -64,6 +64,8 @@ Allows the creation of a new user in the Legion ecosystem.
 >      "name": "John Doe",
 >      "username": "jhondoe123",
 >      "email": "john.doe@example.com",
+>      "isActive": true,
+>      "isDeleted": false,
 >      "createdAt": "2025-01-13T03:14:41.000Z"
 >    }
 >}
@@ -80,6 +82,8 @@ Allows the creation of a new user in the Legion ecosystem.
 >| data.id       | string   | Unique identifier for the created user (ulid format).  |
 >| data.name     | string   | Name for the created user.                             |
 >| data.email    | string   | Email for the created user.                            |
+>| data.isActive    | boolean   | Indicates if the user is currently active.                            |
+>| data.isDeleted    | boolean   | Indicates if the user has been marked as deleted.                           |
 >| data.createdAt    | string   | Date of the user was created (ISO 8601 format).    |
 
 
