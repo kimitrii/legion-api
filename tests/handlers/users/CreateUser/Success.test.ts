@@ -56,6 +56,8 @@ describe('Create User handler E2E', () => {
 				name: 'John Doe',
 				username: 'johndoe123',
 				email: 'johndoe@example.com',
+				isActive: true,
+				isDeleted: false,
 				createdAt: user.createdAt
 			}
 		})
@@ -93,6 +95,8 @@ describe('Create User handler E2E', () => {
 				id: user.id,
 				name: 'John Doe',
 				username: 'johndoe123',
+				isActive: true,
+				isDeleted: false,
 				createdAt: user.createdAt
 			}
 		})
@@ -132,6 +136,8 @@ describe('Create User handler E2E', () => {
 				name: 'John Doe',
 				username: 'johndoe123',
 				email: 'johndoe@example.com',
+				isActive: true,
+				isDeleted: false,
 				createdAt: user.createdAt
 			}
 		})
@@ -170,6 +176,8 @@ describe('Create User handler E2E', () => {
 				id: user.id,
 				name: 'John Doe',
 				username: 'johndoe123',
+				isActive: true,
+				isDeleted: false,
 				createdAt: user.createdAt
 			}
 		})
