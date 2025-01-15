@@ -13,7 +13,7 @@ export class CreateUserService {
 
 		const user = new User(data)
 
-		await this.isUserExists(user)
+		await this.checkForConflict(user)
 
 		if (user.password) {
 			const encryptedPassword = await bcrypt.hash(user.password, 10)
@@ -22,12 +22,19 @@ export class CreateUserService {
 
 		const createdUser = await this.userRepository.create(user)
 
-		createdUser.password = undefined
-
-		return createdUser
+		return this.sanitizeUser(createdUser)
 	}
 
-	private async isUserExists(user: User): Promise<void> {
+	private sanitizeUser(user: User): User {
+		user.password = undefined
+		user.kats = undefined
+		user.rank = undefined
+		user.email = user.email === null ? undefined : user.email
+
+		return user
+	}
+
+	private async checkForConflict(user: User): Promise<void> {
 		const existingUser = await this.userRepository.findOneByOr({
 			id: user.id,
 			email: user.email,
