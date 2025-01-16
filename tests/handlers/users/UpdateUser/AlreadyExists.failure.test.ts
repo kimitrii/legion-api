@@ -28,7 +28,7 @@ describe('Update User failure tests', () => {
 			password: 'secureP@ssw0rd!',
 			email: 'johndoe@example.com',
 			isActive: true,
-			isDeleted: false,
+			deletedAt: null,
 			kats: 0,
 			rank: 0,
 			createdAt: new Date().toISOString()
@@ -41,7 +41,7 @@ describe('Update User failure tests', () => {
 			password: 'secureP@ssw0rd!',
 			email: 'marydoe@example.com',
 			isActive: true,
-			isDeleted: false,
+			deletedAt: null,
 			kats: 0,
 			rank: 0,
 			createdAt: new Date().toISOString()
@@ -82,7 +82,7 @@ describe('Update User failure tests', () => {
 			password: 'secureP@ssw0rd!',
 			email: 'johndoe@example.com',
 			isActive: true,
-			isDeleted: false,
+			deletedAt: null,
 			kats: 0,
 			rank: 0,
 			createdAt: new Date().toISOString()
@@ -95,7 +95,7 @@ describe('Update User failure tests', () => {
 			password: 'secureP@ssw0rd!',
 			email: 'marydoe@example.com',
 			isActive: true,
-			isDeleted: false,
+			deletedAt: null,
 			kats: 0,
 			rank: 0,
 			createdAt: new Date().toISOString()
