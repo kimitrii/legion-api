@@ -1,8 +1,9 @@
 import { users } from '@src/db/user.schema'
+import type { IUsersDTO } from '@src/dtos/User.DTO'
 import { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { FindByParams } from '@src/types/userRepository'
-import { eq, or } from 'drizzle-orm'
+import { and, eq, not, or } from 'drizzle-orm'
 import { type DrizzleD1Database, drizzle } from 'drizzle-orm/d1'
 
 export class UserRepository {
@@ -17,28 +18,35 @@ export class UserRepository {
 	public async findOneByOr({
 		id,
 		email,
-		username
+		username,
+		andNot
 	}: FindByParams): Promise<User[] | null> {
-		const conditions = []
+		const includeConditions = []
+		const excludeConditions = []
 
 		if (id) {
-			conditions.push(eq(users.id, id))
+			includeConditions.push(eq(users.id, id))
 		}
 		if (email) {
-			conditions.push(eq(users.email, email))
+			includeConditions.push(eq(users.email, email))
 		}
 		if (username) {
-			conditions.push(eq(users.username, username))
+			includeConditions.push(eq(users.username, username))
+		}
+		if (andNot) {
+			for (const [key, value] of Object.entries(andNot)) {
+				excludeConditions.push(not(eq(users[key as keyof IUsersDTO], value)))
+			}
 		}
 
-		if (conditions.length === 0) {
+		if (includeConditions.length === 0) {
 			return null
 		}
 
 		const getUser = await this.db
 			.select()
 			.from(users)
-			.where(or(...conditions))
+			.where(and(or(...includeConditions), ...excludeConditions))
 			.limit(1)
 
 		if (getUser.length === 0) {
