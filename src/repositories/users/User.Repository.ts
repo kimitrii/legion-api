@@ -123,7 +123,7 @@ export class UserRepository {
 		await this.db
 			.update(users)
 			.set({
-				isDeleted: true
+				deletedAt: new Date().toISOString()
 			})
 			.where(eq(users.id, id))
 	}
