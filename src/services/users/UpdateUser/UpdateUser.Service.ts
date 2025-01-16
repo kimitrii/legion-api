@@ -23,6 +23,7 @@ export class UpdateUserService {
 		user.password = undefined
 		user.kats = undefined
 		user.rank = undefined
+		user.deletedAt = user.deletedAt === null ? undefined : user.deletedAt
 
 		return user
 	}
