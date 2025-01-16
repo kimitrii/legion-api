@@ -86,6 +86,39 @@ export class UserRepository {
 		return user[0]
 	}
 
+	public async update(data: User): Promise<User> {
+		const updatedUser = await this.db
+			.update(users)
+			.set({
+				name: data.name,
+				username: data.username,
+				email: data.email
+			})
+			.where(eq(users.id, data.id))
+
+		if (updatedUser.error) {
+			throw new AppError({
+				name: 'Internal Server Error',
+				message: updatedUser.error
+			})
+		}
+
+		const user = await this.db
+			.select()
+			.from(users)
+			.where(eq(users.id, data.id))
+			.limit(1)
+
+		if (user.length === 0) {
+			throw new AppError({
+				name: 'Internal Server Error',
+				message: 'User not found after update. Possible data inconsistency.'
+			})
+		}
+
+		return user[0]
+	}
+
 	public async delete(id: string): Promise<void> {
 		await this.db
 			.update(users)
