@@ -30,6 +30,7 @@ export class CreateUserService {
 		user.kats = undefined
 		user.rank = undefined
 		user.email = user.email === null ? undefined : user.email
+		user.deletedAt = user.deletedAt === null ? undefined : user.deletedAt
 
 		return user
 	}
