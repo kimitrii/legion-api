@@ -8,7 +8,7 @@ The **Legion API** powers the community hub for Kimitri’s fans, providing endp
 - [Quick Start](#quick-start)
 - [Security](#security)
 - [REST APIs](#rest-apis)
-    - [Authentication](#authentication)
+    - [Users](#users)
 - [Error Codes](#error-codes)
 
 ## Quick Start
@@ -28,7 +28,7 @@ Lists API endpoints for easier integration with your application. You can call t
 ### Users
 
 <details>
- <summary><code>POST</code> <code><b>/auth/user</b></code> <code>Create New User</code></summary>
+ <summary><code>POST</code> <code><b>/users</b></code> <code>Create New User</code></summary>
  
 #### Create New User
 Allows the creation of a new user in the Legion ecosystem.
@@ -45,7 +45,7 @@ Allows the creation of a new user in the Legion ecosystem.
 > | name          |  type     | Required | description                         |
 > |---------------|-----------|----------|-------------------------------------|
 > | name          |  string   |**yes**| 	The name for the new user. |
-> | username      |  string   |**yes**| 	The user for the new user. |
+> | username      |  string   |**yes**| 	The username for the new user. |
 > | password      |  string   |**no** | 	The password for the user. |
 > | email         |  string   |**no** | 	The email for the user.    |
 
@@ -88,6 +88,73 @@ Allows the creation of a new user in the Legion ecosystem.
 
 
 </details>
+
+<details>
+ <summary><code>POST</code> <code><b>/users/{userId}</b></code> <code>Update User</code></summary>
+ 
+#### Update User
+Allows updating user data but prevents updates if the `username` or `email` already exists in another user's account.
+
+#### Request 
+
+> #### Header Parameters 
+> | name         |  required | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
+> | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+
+> #### Path Parameters
+> | Name | Type   | Required | Description                          |
+> |------|--------|----------|--------------------------------------|
+> | id   | string | **yes**  | The unique identifier of the user.  |
+
+> #### Body Schema
+> | name          |  type     | Required | description                         |
+> |---------------|-----------|----------|-------------------------------------|
+> | name          |  string   |**yes**| 	The name for the user. |
+> | username      |  string   |**yes**| 	The username for the user. |
+> | email         |  string   |**no** | 	The email for the user.    |
+
+#### Response 
+
+> #### Sample Successful Response 
+>
+> Status Code: `201` <br>
+> application/json
+>```json
+>{
+>    "success": true,
+>    "message": "User created successfully!",
+>    "data": {
+>      "id": "01JEVAG858D9NP6A1NMTKXPRRA",
+>      "name": "John Doe",
+>      "username": "jhondoe123",
+>      "email": "john.doe@example.com",
+>      "isActive": true,
+>      "isDeleted": false,
+>      "createdAt": "2025-01-13T03:14:41.000Z"
+>    }
+>}
+>```
+
+
+> #### Response Schema
+> application/json
+>| Key         | Type     | Description                                      |
+>|-------------|----------|--------------------------------------------------|
+>| success     | boolean  | Indicates whether the request was successful.    |
+>| message     | string   | A message providing additional context.          |
+>| data        | object   | Contains user authentication details.            |
+>| data.id       | string   | Unique identifier for the user (ulid format).  |
+>| data.name     | string   | Name for the user.                             |
+>| data.email    | string   | Email for the user.                            |
+>| data.isActive    | boolean   | Indicates if the user is currently active.                            |
+>| data.isDeleted    | boolean   | Indicates if the user has been marked as deleted.                           |
+>| data.createdAt    | string   | Date of the user was created (ISO 8601 format).    |
+
+
+</details>
+
 
 ------------------------------------------------------------------------------------------
 
