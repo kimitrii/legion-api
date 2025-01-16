@@ -65,7 +65,6 @@ Allows the creation of a new user in the Legion ecosystem.
 >      "username": "jhondoe123",
 >      "email": "john.doe@example.com",
 >      "isActive": true,
->      "isDeleted": false,
 >      "createdAt": "2025-01-13T03:14:41.000Z"
 >    }
 >}
@@ -83,7 +82,6 @@ Allows the creation of a new user in the Legion ecosystem.
 >| data.name     | string   | Name for the created user.                             |
 >| data.email    | string   | Email for the created user.                            |
 >| data.isActive    | boolean   | Indicates if the user is currently active.                            |
->| data.isDeleted    | boolean   | Indicates if the user has been marked as deleted.                           |
 >| data.createdAt    | string   | Date of the user was created (ISO 8601 format).    |
 
 
@@ -131,7 +129,6 @@ Allows updating user data but prevents updates if the `username` or `email` alre
 >      "username": "jhondoe123",
 >      "email": "john.doe@example.com",
 >      "isActive": true,
->      "isDeleted": false,
 >      "createdAt": "2025-01-13T03:14:41.000Z"
 >    }
 >}
@@ -149,7 +146,6 @@ Allows updating user data but prevents updates if the `username` or `email` alre
 >| data.name     | string   | Name for the user.                             |
 >| data.email    | string   | Email for the user.                            |
 >| data.isActive    | boolean   | Indicates if the user is currently active.                            |
->| data.isDeleted    | boolean   | Indicates if the user has been marked as deleted.                           |
 >| data.createdAt    | string   | Date of the user was created (ISO 8601 format).    |
 
 

@@ -9,8 +9,8 @@ export class User {
 	public kats?: number | null
 	public rank?: number | null
 	public isActive!: boolean
-	public isDeleted!: boolean
 	public createdAt!: string
+	public deletedAt?: string | null
 
 	public constructor(props: Omit<User, 'id'>) {
 		Object.assign(this, props)
