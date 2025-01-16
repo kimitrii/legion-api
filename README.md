@@ -90,7 +90,7 @@ Allows the creation of a new user in the Legion ecosystem.
 </details>
 
 <details>
- <summary><code>POST</code> <code><b>/users/{userId}</b></code> <code>Update User</code></summary>
+ <summary><code>PUT</code> <code><b>/users/{userId}</b></code> <code>Update User</code></summary>
  
 #### Update User
 Allows updating user data but prevents updates if the `username` or `email` already exists in another user's account.

@@ -1,5 +1,5 @@
 import type { IUsersDTO } from '@src/dtos/User.DTO'
-import { User } from '@src/entities/User.Entity'
+import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
 import { updateUserSchema } from '@src/validations/users/UpdateUser.Validation'
@@ -10,13 +10,11 @@ export class UpdateUserService {
 	public async execute(data: IUsersDTO): Promise<User> {
 		this.validation(data)
 
-		const user = new User(data)
-
 		await this.ensureUserExists(data.id)
 
-		await this.checkForConflict(user)
+		await this.checkForConflict(data)
 
-		const updatedUser = await this.userRepository.update(user)
+		const updatedUser = await this.userRepository.update(data)
 
 		return this.sanitizeUser(updatedUser)
 	}
