@@ -7,6 +7,6 @@ export interface IUsersDTO {
 	kats?: number | null
 	rank?: number | null
 	isActive: boolean
-	isDeleted: boolean
 	createdAt: string
+	deletedAt?: string | null
 }
