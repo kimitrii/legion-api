@@ -9,4 +9,5 @@ export interface IUsersDTO {
 	isActive: boolean
 	createdAt: string
 	deletedAt?: string | null
+	restoredAt?: string | null
 }

@@ -10,5 +10,6 @@ export const users = sqliteTable('users', {
 	rank: integer(),
 	isActive: integer({ mode: 'boolean' }).notNull().default(true),
 	createdAt: text().notNull(),
-	deletedAt: text({ length: 24 })
+	deletedAt: text({ length: 24 }),
+	restoredAt: text({ length: 24 })
 })

@@ -24,6 +24,7 @@ export class UpdateUserService {
 		user.kats = undefined
 		user.rank = undefined
 		user.deletedAt = user.deletedAt === null ? undefined : user.deletedAt
+		user.restoredAt = user.restoredAt === null ? undefined : user.restoredAt
 
 		return user
 	}
