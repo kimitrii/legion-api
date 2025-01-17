@@ -31,6 +31,7 @@ export class CreateUserService {
 		user.rank = undefined
 		user.email = user.email === null ? undefined : user.email
 		user.deletedAt = user.deletedAt === null ? undefined : user.deletedAt
+		user.restoredAt = user.restoredAt === null ? undefined : user.restoredAt
 
 		return user
 	}
