@@ -11,6 +11,7 @@ export class User {
 	public isActive!: boolean
 	public createdAt!: string
 	public deletedAt?: string | null
+	public restoredAt?: string | null
 
 	public constructor(props: Omit<User, 'id'>) {
 		Object.assign(this, props)
