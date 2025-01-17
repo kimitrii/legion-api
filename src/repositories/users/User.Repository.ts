@@ -43,17 +43,17 @@ export class UserRepository {
 			return null
 		}
 
-		const getUser = await this.db
+		const process = await this.db
 			.select()
 			.from(users)
 			.where(and(or(...includeConditions), ...excludeConditions))
 			.limit(1)
 
-		if (getUser.length === 0) {
+		if (process.length === 0) {
 			return null
 		}
 
-		const user = getUser.map((item) => {
+		const user = process.map((item) => {
 			return new User(item)
 		})
 
@@ -61,12 +61,12 @@ export class UserRepository {
 	}
 
 	public async create(data: User): Promise<User> {
-		const createdUser = await this.db.insert(users).values(data)
+		const process = await this.db.insert(users).values(data)
 
-		if (createdUser.error) {
+		if (process.error) {
 			throw new AppError({
 				name: 'Internal Server Error',
-				message: createdUser.error
+				message: process.error
 			})
 		}
 
@@ -83,11 +83,13 @@ export class UserRepository {
 			})
 		}
 
-		return user[0]
+		const createdUser = new User(user[0])
+
+		return createdUser
 	}
 
 	public async update(data: User): Promise<User> {
-		const updatedUser = await this.db
+		const process = await this.db
 			.update(users)
 			.set({
 				name: data.name,
@@ -96,10 +98,10 @@ export class UserRepository {
 			})
 			.where(eq(users.id, data.id))
 
-		if (updatedUser.error) {
+		if (process.error) {
 			throw new AppError({
 				name: 'Internal Server Error',
-				message: updatedUser.error
+				message: process.error
 			})
 		}
 
@@ -116,7 +118,9 @@ export class UserRepository {
 			})
 		}
 
-		return user[0]
+		const updatedUser = new User(user[0])
+
+		return updatedUser
 	}
 
 	public async delete(id: string): Promise<void> {
