@@ -123,12 +123,30 @@ export class UserRepository {
 		return updatedUser
 	}
 
-	public async delete(id: string): Promise<void> {
+	public async delete(id: string): Promise<User> {
 		await this.db
 			.update(users)
 			.set({
-				deletedAt: new Date().toISOString()
+				deletedAt: new Date().toISOString(),
+				isActive: false
 			})
 			.where(eq(users.id, id))
+
+		const user = await this.db
+			.select()
+			.from(users)
+			.where(eq(users.id, id))
+			.limit(1)
+
+		if (user.length === 0) {
+			throw new AppError({
+				name: 'Internal Server Error',
+				message: 'User not found after update. Possible data inconsistency.'
+			})
+		}
+
+		const deletedUser = new User(user[0])
+
+		return deletedUser
 	}
 }
