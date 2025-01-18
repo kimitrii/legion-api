@@ -28,6 +28,16 @@ export const errorsHandler = (
 		)
 	}
 
+	if (error.stack?.includes('csrf')) {
+		return c.json(
+			{
+				success: false,
+				message: 'Access denied.'
+			},
+			403
+		)
+	}
+
 	return c.json(
 		{
 			success: false,
