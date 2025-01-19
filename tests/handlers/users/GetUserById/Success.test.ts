@@ -62,4 +62,48 @@ describe('Get User By Id handler E2E', () => {
 			}
 		})
 	})
+
+	test('should retrieved soft deleted user successfully ', async () => {
+		const date = new Date().toISOString()
+		await db.insert(users).values({
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			password: 'secureP@ssw0rd!',
+			email: 'johndoe@example.com',
+			isActive: true,
+			deletedAt: date,
+			kats: 0,
+			rank: 0,
+			createdAt: date
+		})
+
+		const res = await app.request(
+			'/users/01JHBDWAXFPAKAFK38E1MAM01W?includeDeleted=true',
+			{
+				method: 'GET',
+				headers
+			},
+			env
+		)
+
+		const result = await res.json()
+
+		expect(res.status).toBe(200)
+		expect(result).toStrictEqual({
+			success: true,
+			message: 'User retrieved successfully',
+			data: {
+				id: '01JHBDWAXFPAKAFK38E1MAM01W',
+				name: 'John Doe',
+				username: 'johndoe123',
+				email: 'johndoe@example.com',
+				kats: 0,
+				rank: 0,
+				deletedAt: date,
+				isActive: true,
+				createdAt: date
+			}
+		})
+	})
 })
