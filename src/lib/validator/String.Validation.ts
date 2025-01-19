@@ -128,4 +128,20 @@ export class StringValidation extends ValidationBase {
 		})
 		return this
 	}
+
+	public equals(equals: string): this {
+		this.addValidator((value: string) => {
+			if (value !== equals) {
+				return {
+					success: false,
+					failedValidator: 'equals'
+				}
+			}
+
+			return {
+				success: true
+			}
+		})
+		return this
+	}
 }
