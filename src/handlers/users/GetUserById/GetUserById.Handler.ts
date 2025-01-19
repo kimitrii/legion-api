@@ -1,3 +1,4 @@
+import type { IGetUserDTO } from '@src/dtos/GetUser.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { UserRepository } from '@src/repositories/users/User.Repository'
 import { GetUserByIdService } from '@src/services/users/GetUserById/GetUserById.Service'
@@ -15,7 +16,9 @@ export const GetUserByIdHandler = factory.createHandlers(
 
 		const id = c.req.param('id')
 
-		const data = { id }
+		const queryParameters = c.req.query('includeDeleted')
+
+		const data: IGetUserDTO = { id, includeDeleted: queryParameters }
 
 		const user = await getUserByIdService.execute(data)
 
