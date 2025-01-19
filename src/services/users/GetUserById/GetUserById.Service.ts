@@ -1,4 +1,4 @@
-import type { IIdDTO } from '@src/dtos/Id.DTO'
+import type { IGetUserDTO } from '@src/dtos/GetUser.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
@@ -7,7 +7,7 @@ import { idSchema } from '@src/validations/id/Id.Validation'
 export class GetUserByIdService {
 	public constructor(private readonly userRepository: UserRepository) {}
 
-	public async execute(data: IIdDTO): Promise<User> {
+	public async execute(data: IGetUserDTO): Promise<User> {
 		this.validation(data)
 
 		const user = await this.userRepository.findOneByOr({ id: data.id })
@@ -43,7 +43,7 @@ export class GetUserByIdService {
 		return user
 	}
 
-	private validation(data: IIdDTO): void {
+	private validation(data: IGetUserDTO): void {
 		const isValidData = idSchema.check(data)
 
 		if (!isValidData.success) {
