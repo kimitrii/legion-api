@@ -28,6 +28,75 @@ Lists API endpoints for easier integration with your application. You can call t
 ### Users
 
 <details>
+ <summary><code>GET</code> <code><b>/users/{userId}</b></code> <code>Get User</code></summary>
+ 
+#### Get User
+Fetches detailed information about a specific user using the provided `id`. If the user is marked as deleted, the response return deleted status without exposing sensitive or unnecessary data.
+
+#### Request 
+
+> #### Header Parameters 
+> | name         |  required | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
+> | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+
+> #### Path Parameters
+> | Name | Type   | Required | Description                          |
+> |------|--------|----------|--------------------------------------|
+> | id   | string | **yes**  | The unique identifier of the user.  |
+
+
+> #### Query Parameters
+> | Name | Type   | Required | Description                          |
+> |------|--------|----------|--------------------------------------|
+> | includeDeleted   | string | **no**  | If set to `true`, includes data for soft-deleted users in the response. By default, only active users are retrieved.  |
+
+#### Response 
+
+> #### Sample Successful Response 
+>
+> Status Code: `201` <br>
+> application/json
+>```json
+>{
+>    "success": true,
+>    "message": "User deleted successfully!",
+>    "data": {
+>      "id": "01JEVAG858D9NP6A1NMTKXPRRA",
+>      "name": "John Doe",
+>      "username": "jhondoe123",
+>      "email": "john.doe@example.com",
+>      "kats": 0,
+>      "rank": 0,
+>      "isActive": true,
+>      "deletedAt": null,
+>      "createdAt": "2025-01-13T03:14:41.000Z"
+>    }
+>}
+>```
+
+
+> #### Response Schema
+> application/json
+>| Key         | Type     | Description                                      |
+>|-------------|----------|--------------------------------------------------|
+>| success     | boolean  | Indicates whether the request was successful.    |
+>| message     | string   | A message providing additional context.          |
+>| data        | object   | Contains user authentication details.            |
+>| data.id       | string   | Unique identifier for the user (ulid format).  |
+>| data.name     | string   | Name for the user.                             |
+>| data.email    | string   | Email for the user.                            |
+>| data.kats    | number   | Represents the amount of Legion community currency the user possesses.                            |
+>| data.rank    | number   | Indicates the user's rank within the Legion community.                            |
+>| data.isActive    | boolean   | Indicates if the user is currently active.                            |
+>| data.deletedAt    | string   | Date of the user was deleted.                            |
+>| data.createdAt    | string   | Date of the user was created (ISO 8601 format).    |
+
+
+</details>
+
+<details>
  <summary><code>POST</code> <code><b>/users</b></code> <code>Create New User</code></summary>
  
 #### Create New User

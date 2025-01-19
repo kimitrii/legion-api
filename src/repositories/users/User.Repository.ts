@@ -39,7 +39,7 @@ export class UserRepository {
 			}
 		}
 
-		if (includeConditions.length === 0) {
+		if (includeConditions.length === 0 && excludeConditions.length === 0) {
 			return null
 		}
 
