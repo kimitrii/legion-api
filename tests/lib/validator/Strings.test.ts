@@ -232,4 +232,25 @@ describe('Validator Library', () => {
 			field: 'data'
 		})
 	})
+
+	test('validates equals string format', () => {
+		const schema = validator.schema({
+			data: validator.string().equals('equals-data')
+		})
+
+		const validData = { data: 'equals-data' }
+		const validResult = schema.check(validData)
+
+		const invalidData = { data: '33-04-1990' }
+		const invalidResult = schema.check(invalidData)
+
+		expect(validResult).toStrictEqual({
+			success: true
+		})
+		expect(invalidResult).toStrictEqual({
+			success: false,
+			failedValidator: 'equals',
+			field: 'data'
+		})
+	})
 })
