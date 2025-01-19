@@ -2,7 +2,7 @@ import type { IGetUserDTO } from '@src/dtos/GetUser.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
-import { idSchema } from '@src/validations/id/Id.Validation'
+import { getUserByIdSchema } from '@src/validations/users/GetUserById.Validation'
 
 export class GetUserByIdService {
 	public constructor(private readonly userRepository: UserRepository) {}
@@ -22,7 +22,7 @@ export class GetUserByIdService {
 			})
 		}
 
-		if (user[0].deletedAt && !user[0].restoredAt) {
+		if (user[0].deletedAt && !user[0].restoredAt && !data.includeDeleted) {
 			throw new AppError({
 				name: 'Not Found',
 				message: 'User has been deleted!',
@@ -44,7 +44,7 @@ export class GetUserByIdService {
 	}
 
 	private validation(data: IGetUserDTO): void {
-		const isValidData = idSchema.check(data)
+		const isValidData = getUserByIdSchema.check(data)
 
 		if (!isValidData.success) {
 			throw new AppError({
