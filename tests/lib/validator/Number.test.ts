@@ -83,4 +83,25 @@ describe('Validator Library', () => {
 			success: true
 		})
 	})
+
+	test('should fail with NaN data', () => {
+		const schema = validator.schema({
+			data: validator.number()
+		})
+
+		const validData = { data: 3 }
+		const validResult = schema.check(validData)
+
+		const nullData = {}
+		const nullResult = schema.check(nullData)
+
+		expect(validResult).toStrictEqual({
+			success: true
+		})
+		expect(nullResult).toStrictEqual({
+			success: false,
+			failedValidator: 'nullable',
+			field: 'data'
+		})
+	})
 })
