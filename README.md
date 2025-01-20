@@ -28,6 +28,98 @@ Lists API endpoints for easier integration with your application. You can call t
 ### Users
 
 <details>
+ <summary><code>GET</code> <code><b>/users?page={number}</b></code> <code>List Users</code></summary>
+ 
+#### List Users
+Retrieves a paginated list of users, with 20 users per page, including detailed information for each. If the user is marked as deleted, the response return deleted status without exposing sensitive or unnecessary data.
+
+#### Request 
+
+> #### Header Parameters 
+> | name         |  required | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
+> | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+
+> #### Query Parameters
+> | Name | Type   | Required | Description                          |
+> |------|--------|----------|--------------------------------------|
+> | page   | string | **yes**  | The page number to retrieve.  |
+> | includeDeleted   | string | **no**  | If set to `true`, includes data for soft-deleted users in the response. By default, only active users are retrieved.  |
+
+#### Response 
+
+> #### Sample Successful Response 
+>
+> Status Code: `200` <br>
+> application/json
+>```json
+>{
+>    "success": true,
+>    "message": "Users list retrieved successfully!",
+>    "data": {
+>      "users": [
+>           {
+>               "id": "01JJ02AHX4NEFDRH5PT5KQX5MT",
+>               "name": "Elaine Windler",
+>               "username": "Jaylon.Stamm22",
+>               "email": "Sherwood50@gmail.com",
+>               "kats": 0,
+>               "rank": null,
+>               "isActive": true,
+>               "createdAt": "2025-01-19T19:58:34.404Z"
+>           },
+>           {
+>               "id": "01JJ0W0VM4F6DFDZWYD6P10E21",
+>               "name": "Miss Luz Brakus",
+>               "username": "Verlie.Dietrich66",
+>               "email": "Howell.Graham61@hotmail.com",
+>               "kats": 0,
+>               "rank": null,
+>               "isActive": true,
+>               "createdAt": "2025-01-20T03:27:39.652Z"
+>           },
+>           ...
+>       ],
+>       "pagination": {
+>           "totalPages": 1,
+>           "totalItems": 3,
+>           "isLastPage": true
+>       }
+>    }
+>}
+>```
+
+
+> #### Response Schema
+> application/json
+>| Key         | Type     | Description                                      |
+>|-------------|----------|--------------------------------------------------|
+>| success     | boolean  | Indicates whether the request was successful.    |
+>| message     | string   | A message providing additional context.          |
+>| data        | object   | Contains the list of users and pagination details.            |
+>| data.users[]                | array    | An array of user objects.                                                   |
+>| data.users[].id             | string   | Unique identifier for the user (ULID format).                               |
+>| data.users[].name           | string   | The user's full name.                                                       |
+>| data.users[].username       | string   | The user's username.                                                       |
+>| data.users[].email          | string   | The user's email address.                                                   |
+>| data.users[].kats           | number   | Represents the amount of Legion community currency the user possesses.      |
+>| data.users[].rank           | number   | The user's rank within the Legion community (null if unranked).             |
+>| data.users[].isActive       | boolean  | Indicates whether the user is active.                                       |
+>| data.users[].deletedAt      | string   | The date the user was deleted, or null if active.                           |
+>| data.users[].restoredAt      | string   | The date the user was restored.                           |
+>| data.users[].createdAt      | string   | Date when the user was created (ISO 8601 format).                           |
+>| data.pagination           | object   | Pagination information for the result set.                                 |
+>| data.pagination.totalPages| number   | Total number of pages available.                                            |
+>| data.pagination.totalItems| number   | Total number of users available.                                           |
+>| data.pagination.isLastPage| boolean  | Indicates whether the current page is the last one.                         |
+
+
+
+</details>
+
+
+<details>
  <summary><code>GET</code> <code><b>/users/{userId}</b></code> <code>Get User</code></summary>
  
 #### Get User
@@ -56,12 +148,12 @@ Fetches detailed information about a specific user using the provided `id`. If t
 
 > #### Sample Successful Response 
 >
-> Status Code: `201` <br>
+> Status Code: `200` <br>
 > application/json
 >```json
 >{
 >    "success": true,
->    "message": "User deleted successfully!",
+>    "message": "User retrieved successfully!",
 >    "data": {
 >      "id": "01JEVAG858D9NP6A1NMTKXPRRA",
 >      "name": "John Doe",
@@ -186,12 +278,12 @@ Allows updating user data but prevents updates if the `username` or `email` alre
 
 > #### Sample Successful Response 
 >
-> Status Code: `201` <br>
+> Status Code: `200` <br>
 > application/json
 >```json
 >{
 >    "success": true,
->    "message": "User created successfully!",
+>    "message": "User updated successfully!",
 >    "data": {
 >      "id": "01JEVAG858D9NP6A1NMTKXPRRA",
 >      "name": "John Doe",
@@ -243,7 +335,7 @@ Allows soft deletion for users. When using this endpoint, users are marked as de
 
 > #### Sample Successful Response 
 >
-> Status Code: `201` <br>
+> Status Code: `200` <br>
 > application/json
 >```json
 >{
