@@ -4,7 +4,10 @@ export class NumberValidation extends ValidationBase {
 	public constructor() {
 		super()
 		this.addValidator((value) => {
-			return { success: typeof value === 'number', failedValidator: 'number' }
+			return {
+				success: !Number.isNaN(value) && typeof value === 'number',
+				failedValidator: 'number'
+			}
 		})
 	}
 
