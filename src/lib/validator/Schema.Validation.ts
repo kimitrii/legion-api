@@ -17,13 +17,21 @@ export class SchemaValidation<T extends Record<string, unknown>> {
 
 	public check(data: Partial<T>): ValidationResult {
 		if (this.strict) {
-			const extraKeys = Object.keys(data).filter((key) => !(key in this.schema))
+			const keys = Object.keys(data)
+			const extraKeys = keys.filter((key) => !(key in this.schema))
 
 			if (extraKeys.length > 0) {
 				return {
 					success: false,
 					failedValidator: 'unknownPropertiesDetected',
 					field: extraKeys
+				}
+			}
+
+			if (keys.length === 0) {
+				return {
+					success: false,
+					failedValidator: 'AtLeastOneFieldRequired'
 				}
 			}
 		}
