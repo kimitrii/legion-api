@@ -1,9 +1,13 @@
 import { users } from '@src/db/user.schema'
+import type {
+	IPaginationParamsDTO,
+	PaginatedResult
+} from '@src/dtos/Pagination.DTO'
 import type { IUsersDTO } from '@src/dtos/User.DTO'
 import { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { FindByParams } from '@src/types/userRepository'
-import { and, eq, not, or } from 'drizzle-orm'
+import { and, count, eq, isNull, not, or } from 'drizzle-orm'
 import { type DrizzleD1Database, drizzle } from 'drizzle-orm/d1'
 
 export class UserRepository {
@@ -13,6 +17,43 @@ export class UserRepository {
 
 	public constructor(D1: D1Database) {
 		this.db = drizzle(D1)
+	}
+
+	public async findAll(
+		data: IPaginationParamsDTO
+	): Promise<PaginatedResult<User>> {
+		const offset = (data.page - 1) * data.limit
+
+		let userQuery = this.db
+			.select()
+			.from(users)
+			.limit(data.limit)
+			.offset(offset)
+			.where(isNull(users.deletedAt))
+
+		if (data.includeDeleted) {
+			userQuery = this.db.select().from(users).limit(data.limit).offset(offset)
+		}
+
+		const userRecords = await userQuery
+
+		let countQuery = this.db
+			.select({ count: count() })
+			.from(users)
+			.offset(offset)
+			.where(isNull(users.deletedAt))
+
+		if (data.includeDeleted) {
+			countQuery = this.db.select({ count: count() }).from(users).offset(offset)
+		}
+
+		const totalUsers = await countQuery
+
+		const usersList = userRecords.map((item) => {
+			return new User(item)
+		})
+
+		return { items: usersList, totalItems: totalUsers[0].count }
 	}
 
 	public async findOneByOr({
@@ -89,7 +130,7 @@ export class UserRepository {
 	}
 
 	public async update(data: User): Promise<User> {
-		const process = await this.db
+		const updateResult = await this.db
 			.update(users)
 			.set({
 				name: data.name,
@@ -98,27 +139,27 @@ export class UserRepository {
 			})
 			.where(eq(users.id, data.id))
 
-		if (process.error) {
+		if (updateResult.error) {
 			throw new AppError({
 				name: 'Internal Server Error',
-				message: process.error
+				message: updateResult.error
 			})
 		}
 
-		const user = await this.db
+		const queriedUser = await this.db
 			.select()
 			.from(users)
 			.where(eq(users.id, data.id))
 			.limit(1)
 
-		if (user.length === 0) {
+		if (queriedUser.length === 0) {
 			throw new AppError({
 				name: 'Internal Server Error',
 				message: 'User not found after update. Possible data inconsistency.'
 			})
 		}
 
-		const updatedUser = new User(user[0])
+		const updatedUser = new User(queriedUser[0])
 
 		return updatedUser
 	}
@@ -132,20 +173,20 @@ export class UserRepository {
 			})
 			.where(eq(users.id, id))
 
-		const user = await this.db
+		const queriedUser = await this.db
 			.select()
 			.from(users)
 			.where(eq(users.id, id))
 			.limit(1)
 
-		if (user.length === 0) {
+		if (queriedUser.length === 0) {
 			throw new AppError({
 				name: 'Internal Server Error',
 				message: 'User not found after update. Possible data inconsistency.'
 			})
 		}
 
-		const deletedUser = new User(user[0])
+		const deletedUser = new User(queriedUser[0])
 
 		return deletedUser
 	}
