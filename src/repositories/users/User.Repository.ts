@@ -35,18 +35,16 @@ export class UserRepository {
 			userQuery = this.db.select().from(users).limit(data.limit).offset(offset)
 		}
 
-		const userRecords = await userQuery
-
 		let countQuery = this.db
 			.select({ count: count() })
 			.from(users)
-			.offset(offset)
 			.where(isNull(users.deletedAt))
 
 		if (data.includeDeleted) {
-			countQuery = this.db.select({ count: count() }).from(users).offset(offset)
+			countQuery = this.db.select({ count: count() }).from(users)
 		}
 
+		const userRecords = await userQuery
 		const totalUsers = await countQuery
 
 		const usersList = userRecords.map((item) => {
