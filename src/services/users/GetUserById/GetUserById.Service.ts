@@ -22,7 +22,7 @@ export class GetUserByIdService {
 			})
 		}
 
-		if (user[0].deletedAt && !user[0].restoredAt && !data.includeDeleted) {
+		if (user.deletedAt && !user.restoredAt && !data.includeDeleted) {
 			throw new AppError({
 				name: 'Not Found',
 				message: 'User has been deleted!',
@@ -32,7 +32,7 @@ export class GetUserByIdService {
 			})
 		}
 
-		return this.sanitizeUser(user[0])
+		return this.sanitizeUser(user)
 	}
 
 	private sanitizeUser(user: User): User {

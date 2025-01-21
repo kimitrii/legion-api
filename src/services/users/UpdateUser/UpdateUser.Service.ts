@@ -42,7 +42,7 @@ export class UpdateUserService {
 			})
 		}
 
-		return user[0]
+		return user
 	}
 
 	private async checkForConflict(user: User): Promise<void> {
@@ -54,15 +54,15 @@ export class UpdateUserService {
 			}
 		})
 
-		if (existingUser && existingUser.length !== 0) {
+		if (existingUser) {
 			const conflictField =
-				existingUser[0].username === user.username ? 'username' : 'email'
+				existingUser.username === user.username ? 'username' : 'email'
 
 			throw new AppError({
 				name: 'Conflict',
 				message: 'This user already exists',
 				cause: {
-					[conflictField]: existingUser[0][conflictField]
+					[conflictField]: existingUser[conflictField]
 				}
 			})
 		}
