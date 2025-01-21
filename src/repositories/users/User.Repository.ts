@@ -59,7 +59,7 @@ export class UserRepository {
 		email,
 		username,
 		andNot
-	}: FindByParams): Promise<User[] | null> {
+	}: FindByParams): Promise<User | null> {
 		const includeConditions = []
 		const excludeConditions = []
 
@@ -96,7 +96,7 @@ export class UserRepository {
 			return new User(item)
 		})
 
-		return user
+		return user[0]
 	}
 
 	public async create(data: User): Promise<User> {
