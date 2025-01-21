@@ -43,12 +43,12 @@ export class CreateUserService {
 			username: user.username
 		})
 
-		if (existingUser && existingUser.length !== 0) {
+		if (existingUser) {
 			let conflictField: 'username' | 'email' | 'id'
 
-			if (existingUser[0].username === user.username) {
+			if (existingUser.username === user.username) {
 				conflictField = 'username'
-			} else if (existingUser[0].email === user.email) {
+			} else if (existingUser.email === user.email) {
 				conflictField = 'email'
 			} else {
 				conflictField = 'id'
@@ -58,7 +58,7 @@ export class CreateUserService {
 				name: 'Conflict',
 				message: 'This user already exists',
 				cause: {
-					[conflictField]: existingUser[0][conflictField]
+					[conflictField]: existingUser[conflictField]
 				}
 			})
 		}

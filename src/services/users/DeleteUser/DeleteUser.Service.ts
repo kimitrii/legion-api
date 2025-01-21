@@ -39,11 +39,7 @@ export class DeleteUserService {
 			})
 		}
 
-		if (
-			existingUser.length !== 0 &&
-			existingUser[0].deletedAt &&
-			!existingUser[0].restoredAt
-		) {
+		if (existingUser.deletedAt && !existingUser.restoredAt) {
 			throw new AppError({
 				name: 'Not Found',
 				message: 'This user has been deleted!',
