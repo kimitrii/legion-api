@@ -9,6 +9,7 @@ The **Legion API** powers the community hub for Kimitri’s fans, providing endp
 - [Security](#security)
 - [REST APIs](#rest-apis)
     - [Users](#users)
+    - [Authentication](#authentication)
 - [Error Codes](#error-codes)
 
 ## Quick Start
@@ -24,6 +25,74 @@ For information on reporting security vulnerabilities in Legion API, see
 
 Lists API endpoints for easier integration with your application. You can call the Legion API in any language. 
 >⚠We do not provide sandbox URL. If you need endpoints to assist in developing your application, follow the [Contribution Guidelines](./CONTRIBUTING.md) to run Legion API locally.
+
+### Authentication
+
+<details>
+ <summary><code>POST</code> <code><b>/users/login</b></code> <code>Authenticate User Password</code></summary>
+ 
+#### Authenticate User Password
+This endpoint authenticates a user by verifying their email or username along with the provided password. If the credentials match a registered user in the database, a JSON Web Token (JWT) is generated and returned to the client.
+
+#### Request 
+
+> #### Header Parameters 
+> | name         |  required | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
+> | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+
+> #### Body Schema
+> | name          |  type     | Required | description                         |
+> |---------------|-----------|----------|-------------------------------------|
+> | username      |  string   |**no**| 	The username of the user. Either `username` or `email` must be provided. |
+> | email         |  string   |**no** | 	The email of the user. Either `username` or `email` must be provided.    |
+> | password      |  string   |**yes** | 	The password for the user. |
+
+#### Response 
+
+> #### Sample Successful Response 
+>
+> Status Code: `200` <br>
+> application/json
+>```json
+>{
+>    "success": true,
+>    "message": "User authenticated successfully!",
+>    "data": {
+>      "id": "01JEVAG858D9NP6A1NMTKXPRRA",
+>      "name": "John Doe",
+>      "username": "jhondoe123",
+>      "email": "john.doe@example.com",
+>      "token": {
+>        "accessToken": "eyJhbGciOiJIUzI1NiIsInR...",
+>        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+>        "expiresIn": "1737648644"
+>        },
+>    }
+>}
+>```
+
+
+> #### Response Schema
+> application/json
+>| Key         | Type     | Description                                      |
+>|-------------|----------|--------------------------------------------------|
+>| success     | boolean  | Indicates whether the request was successful.    |
+>| message     | string   | A message providing additional context.          |
+>| data        | object   | Contains the authenticated user's details and tokens.            |
+>| data.id       | string   | Unique identifier for the authenticated user (ULID format).  |
+>| data.name     | string   | Name for the authenticated user.                             |
+>| data.email    | string   | Email for the authenticated user.                            |
+>| data.username    | string   | Username for the authenticated user.                           |
+>| data.token    | object   |   Contains authentication tokens and their expiry.|
+>| data.token.accessToken    | string   | 	The JWT access token.                            |
+>| data.token.refreshToken    | string   | 	The JWT access refreshToken.                            |
+>| data.token.expiresIn    | string   | 	The token expiration time (UNIX timestamp).                           |
+
+
+</details>
+
 
 ### Users
 
