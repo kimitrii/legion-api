@@ -67,6 +67,9 @@ jobs:
     name: Run Tests
     needs: ['commitlint']
     runs-on: ubuntu-latest
+    env:
+      USER_SECRET_KEY: ${{secrets.USER_SECRET_KEY_PR}}
+      REFRESH_SECRET_KEY: ${{secrets.REFRESH_SECRET_KEY_PR}}
     steps:
       - uses: actions/checkout@v4
 
@@ -75,15 +78,14 @@ jobs:
         with:
           version: 9
 
-      - name: Run tests using Cloudflare CLI environment
-        uses: cloudflare/wrangler-action@v3
-        env:
-          USER_SECRET_KEY: ${{secrets.USER_SECRET_KEY_PR}}
-          REFRESH_SECRET_KEY: ${{secrets.REFRESH_SECRET_KEY_PR}}
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          secrets: |
-            USER_SECRET_KEY
-            REFRESH_SECRET_KEY
-          preCommands: pnpm test
-          command: logout
+      - name: Restore node_modules cache
+        id: node_modules
+        uses: actions/cache@v4
+        with: 
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Run tests 
+        run: |
+          pnpm test
