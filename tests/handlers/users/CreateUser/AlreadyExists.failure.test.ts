@@ -27,20 +27,18 @@ describe('Create User failure tests', () => {
 		const usersRepository = new UserRepository(env.DB)
 		const createUserService = new CreateUserService(usersRepository)
 
-		vitest.spyOn(usersRepository, 'findOneByOr').mockResolvedValueOnce([
-			{
-				id: '01JHBDWAXFPAKAFK38E1MAM01W',
-				name: 'John Doe',
-				username: 'johndoe123',
-				password: 'secureP@ssw0rd!',
-				email: 'johndoe@example.com',
-				isActive: true,
-				deletedAt: null,
-				kats: 0,
-				rank: 0,
-				createdAt: new Date().toISOString()
-			}
-		])
+		vitest.spyOn(usersRepository, 'findOneByOr').mockResolvedValueOnce({
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			password: 'secureP@ssw0rd!',
+			email: 'johndoe@example.com',
+			isActive: true,
+			deletedAt: null,
+			kats: 0,
+			rank: 0,
+			createdAt: new Date().toISOString()
+		})
 
 		await db.insert(users).values({
 			id: '01JHBDWAXFPAKAFK38E1MAM01W',
