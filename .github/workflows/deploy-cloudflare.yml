@@ -33,8 +33,14 @@ jobs:
 
       - name: Run Tests, Migrations and Deploy using Cloudflare CLI environment
         uses: cloudflare/wrangler-action@v3
+        env:
+          USER_SECRET_KEY: ${{secrets.USER_SECRET_KEY}}
+          REFRESH_SECRET_KEY: ${{secrets.REFRESH_SECRET_KEY}}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          secrets: |
+            USER_SECRET_KEY
+            REFRESH_SECRET_KEY
           preCommands: |
             pnpm test 
             pnpm migration:prod
