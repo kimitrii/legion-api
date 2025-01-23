@@ -91,25 +91,31 @@ export class UserAuthService {
 		refreshToken: string
 		accessTokenExp: number
 	}> {
+		if (
+			!this.env.USER_SECRET_KEY ||
+			!this.env.REFRESH_SECRET_KEY ||
+			!this.env.AUTH_ISSUER
+		) {
+			throw new AppError({
+				name: 'Internal Server Error',
+				message: 'JWT secrets are not properly configured.'
+			})
+		}
+
 		const payloadAccessToken = {
 			id: user.id,
 			name: user.name,
 			username: user.username,
+			iss: this.env.AUTH_ISSUER,
 			iat: Math.floor(Date.now() / 1000),
 			exp: Math.floor(Date.now() / 1000) + 60 * 60
 		}
 
 		const payloadRefreshToken = {
 			id: user.id,
+			iss: this.env.AUTH_ISSUER,
 			iat: Math.floor(Date.now() / 1000),
 			exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30
-		}
-
-		if (!this.env.USER_SECRET_KEY || !this.env.REFRESH_SECRET_KEY) {
-			throw new AppError({
-				name: 'Internal Server Error',
-				message: 'JWT secrets are not properly configured.'
-			})
 		}
 
 		const accessToken = await sign(payloadAccessToken, this.env.USER_SECRET_KEY)
