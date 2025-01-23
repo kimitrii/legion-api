@@ -36,11 +36,13 @@ jobs:
         env:
           USER_SECRET_KEY: ${{secrets.USER_SECRET_KEY}}
           REFRESH_SECRET_KEY: ${{secrets.REFRESH_SECRET_KEY}}
+          AUTH_ISSUER: ${{secrets.AUTH_ISSUER}}
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           secrets: |
             USER_SECRET_KEY
             REFRESH_SECRET_KEY
+            AUTH_ISSUER
           preCommands: |
             pnpm test 
             pnpm migration:prod
