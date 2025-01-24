@@ -8,8 +8,8 @@ The **Legion API** powers the community hub for Kimitri’s fans, providing endp
 - [Quick Start](#quick-start)
 - [Security](#security)
 - [REST APIs](#rest-apis)
-    - [Users](#users)
     - [Authentication](#authentication)
+    - [Users](#users)
 - [Error Codes](#error-codes)
 
 ## Quick Start
@@ -330,6 +330,7 @@ Allows updating user data but prevents updates if the `username` or `email` alre
 > |--------------|-----------|------------------------------------------------------------------------------------------------------|
 > | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
 > | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+> | Authorization |  yes      | A Bearer token in the format `Bearer <JWT>` for authenticating the request and ensuring access.|
 
 > #### Path Parameters
 > | Name | Type   | Required | Description                          |
@@ -394,6 +395,7 @@ Allows soft deletion for users. When using this endpoint, users are marked as de
 > |--------------|-----------|------------------------------------------------------------------------------------------------------|
 > | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
 > | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+> | Authorization |  yes      | A Bearer token in the format `Bearer <JWT>` for authenticating the request and ensuring access.|
 
 > #### Path Parameters
 > | Name | Type   | Required | Description                          |

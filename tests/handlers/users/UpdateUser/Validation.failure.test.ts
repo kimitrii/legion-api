@@ -2,15 +2,11 @@ import { applyD1Migrations, env } from 'cloudflare:test'
 import { users } from '@src/db/user.schema'
 import app from '@src/index'
 import { drizzle } from 'drizzle-orm/d1'
+import { sign } from 'hono/jwt'
 import { afterEach, beforeAll, describe, expect, test } from 'vitest'
 
 describe('Update User Input Validation - E2E', () => {
 	const db = drizzle(env.DB)
-
-	const headers = {
-		'Content-Type': 'application/json',
-		'X-CSRF-Token': 'mock-csrf-token'
-	}
 
 	beforeAll(async () => {
 		await applyD1Migrations(env.DB, env.TEST_MIGRATIONS)
@@ -26,6 +22,22 @@ describe('Update User Input Validation - E2E', () => {
 			username: 'johndoe123',
 			email: 'exemple@exemple.com'
 		})
+
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
 
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
@@ -58,6 +70,22 @@ describe('Update User Input Validation - E2E', () => {
 			username: 'johndoe123'
 		})
 
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
+
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
 			{
@@ -86,6 +114,22 @@ describe('Update User Input Validation - E2E', () => {
 			name: '',
 			username: 'johndoe123'
 		})
+
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
 
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
@@ -116,6 +160,22 @@ describe('Update User Input Validation - E2E', () => {
 			username: 'johndoe123'
 		})
 
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
+
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
 			{
@@ -144,6 +204,22 @@ describe('Update User Input Validation - E2E', () => {
 			name: 'John Doe',
 			username: 1234
 		})
+
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
 
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
@@ -176,6 +252,22 @@ describe('Update User Input Validation - E2E', () => {
 			username: longName
 		})
 
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
+
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
 			{
@@ -204,6 +296,22 @@ describe('Update User Input Validation - E2E', () => {
 			name: 'John Doe',
 			username: ''
 		})
+
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
 
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
@@ -234,6 +342,22 @@ describe('Update User Input Validation - E2E', () => {
 			username: undefined
 		})
 
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
+
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
 			{
@@ -263,6 +387,22 @@ describe('Update User Input Validation - E2E', () => {
 			username: 'johndoe123',
 			email: 1234
 		})
+
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
 
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
@@ -296,6 +436,22 @@ describe('Update User Input Validation - E2E', () => {
 			email: `test@test.com${longPassword}`
 		})
 
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
+
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
 			{
@@ -325,6 +481,22 @@ describe('Update User Input Validation - E2E', () => {
 			username: 'johndoe123',
 			email: '1234567'
 		})
+
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
 
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
@@ -356,6 +528,22 @@ describe('Update User Input Validation - E2E', () => {
 			test: '1234567'
 		})
 
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
+
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
 			{
@@ -382,6 +570,22 @@ describe('Update User Input Validation - E2E', () => {
 	test('should throw a Bad Request error when invalid JSON is provided', async () => {
 		const payload =
 			'{ name: "John Doe", username: "johndoe123", email: asdf@test.com, password: "randomPassword" }'
+
+		const payloadAccessToken = {
+			id: '01JHBDWAXFPAKAFK38E1MAM01W',
+			name: 'John Doe',
+			username: 'johndoe123',
+			iss: env.AUTH_ISSUER,
+			iat: Math.floor(Date.now() / 1000),
+			exp: Math.floor(Date.now() / 1000) + 60 * 60
+		}
+		const accessToken = await sign(payloadAccessToken, env.USER_SECRET_KEY)
+
+		const headers = {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': 'mock-csrf-token',
+			authorization: `Bearer ${accessToken}`
+		}
 
 		const res = await app.request(
 			'/users/01JHBDWAXFPAKAFK38E1MAM01W',
