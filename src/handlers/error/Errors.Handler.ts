@@ -1,6 +1,15 @@
 import type { Context } from 'hono'
 import type { HTTPResponseError } from 'hono/types'
 import type { StatusCode } from 'hono/utils/http-status'
+import {
+	JwtAlgorithmNotImplemented,
+	JwtHeaderInvalid,
+	JwtTokenExpired,
+	JwtTokenInvalid,
+	JwtTokenIssuedAt,
+	JwtTokenNotBefore,
+	JwtTokenSignatureMismatched
+} from 'hono/utils/jwt/types'
 
 export const errorsHandler = (
 	error: Error | HTTPResponseError,
@@ -25,6 +34,26 @@ export const errorsHandler = (
 		return c.json(
 			{ success: false, message: error.message, cause: error.cause },
 			mappedError.status
+		)
+	}
+
+	const jwtErrorTypes = [
+		JwtTokenInvalid,
+		JwtAlgorithmNotImplemented,
+		JwtHeaderInvalid,
+		JwtTokenExpired,
+		JwtTokenIssuedAt,
+		JwtTokenNotBefore,
+		JwtTokenSignatureMismatched
+	]
+
+	if (jwtErrorTypes.some((ErrorType) => error instanceof ErrorType)) {
+		return c.json(
+			{
+				success: false,
+				message: error.message
+			},
+			401
 		)
 	}
 
