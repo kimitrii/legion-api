@@ -1,18 +1,29 @@
 import crypto from 'node:crypto'
 
 export class Totp {
-	public generateSecret({ name }: { name: string }): {
+	public generateSecret({
+		service,
+		user,
+		algorithm
+	}: {
+		service: string
+		user: string
+		algorithm: 'SHA1' | 'SHA256' | 'SHA512'
+	}): {
 		secret?: string
 		otpauthUrl?: string
 		error?: string
 	} {
 		const urlParamRegex = /^[A-Za-z0-9_-]+$/
-		if (!urlParamRegex.test(name)) {
-			return { error: 'Invalid name.' }
+		if (!urlParamRegex.test(user)) {
+			return { error: 'Invalid user.' }
+		}
+		if (!urlParamRegex.test(service)) {
+			return { error: 'Invalid service.' }
 		}
 
 		const secret = this.generateTOTPSecret()
-		const otpauthUrl = `otpauth://totp/${name}?secret=${secret}`
+		const otpauthUrl = `otpauth://totp/${user}?secret=${secret}&issuer=${service}&algorithm=${algorithm}&digits=6&period=30`
 
 		return {
 			secret,
@@ -20,11 +31,17 @@ export class Totp {
 		}
 	}
 
-	public check(
-		secret: string,
-		token: string,
-		window = 1
-	): { isValid: boolean; error?: string } {
+	public check({
+		secret,
+		token,
+		algorithm
+	}: {
+		secret: string
+		token: string
+		algorithm: 'sha1' | 'sha256' | 'sha512'
+	}): { isValid: boolean; error?: string } {
+		const window = 1
+
 		const secretRegex = /^[A-Z2-7]+=*$/
 
 		if (!secretRegex.test(secret)) {
@@ -40,7 +57,11 @@ export class Totp {
 		const currentTime = Math.floor(Date.now() / 1000 / 30)
 
 		for (let i = -window; i <= window; i++) {
-			const generatedToken = this.generateToken(secret, currentTime + i)
+			const generatedToken = this.generateToken(
+				secret,
+				currentTime + i,
+				algorithm
+			)
 
 			if (!generatedToken) {
 				return {
@@ -78,7 +99,11 @@ export class Totp {
 		return base32
 	}
 
-	private generateToken(secret: string, counter: number): string | null {
+	private generateToken(
+		secret: string,
+		counter: number,
+		algorithm: 'sha1' | 'sha256' | 'sha512'
+	): string | null {
 		const key = this.fromBase32(secret)
 
 		if (!key) {
@@ -93,7 +118,7 @@ export class Totp {
 			localCounter >>= 8
 		}
 
-		const hmac = crypto.createHmac('sha1', key).update(buffer).digest()
+		const hmac = crypto.createHmac(algorithm, key).update(buffer).digest()
 		const offset = hmac[hmac.length - 1] & 0xf
 		const code =
 			((hmac[offset] & 0x7f) << 24) |
