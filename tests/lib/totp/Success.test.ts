@@ -43,7 +43,11 @@ describe('Time based one tap password Library', () => {
 	test('should generate secret and otpauth url and authenticate token successfully', () => {
 		const totp = new Totp()
 
-		const secret = totp.generateSecret({ name: 'LegionAPI' })
+		const secret = totp.generateSecret({
+			user: 'Mary',
+			algorithm: 'SHA1',
+			service: 'MyApp'
+		})
 
 		expect(secret).toHaveProperty('secret')
 		expect(secret).toHaveProperty('otpauthUrl')
@@ -52,7 +56,11 @@ describe('Time based one tap password Library', () => {
 		const currentTime = Math.floor(Date.now() / 1000 / 30)
 		const token = generateToken(secret.secret ?? '', currentTime)
 
-		const isValid = totp.check(secret.secret ?? '', token)
+		const isValid = totp.check({
+			secret: secret.secret ?? '',
+			algorithm: 'sha1',
+			token
+		})
 		expect(isValid).toStrictEqual({
 			isValid: true
 		})
