@@ -2,15 +2,14 @@ import type { IAuthPasswordDTO, IAuthReturnDTO } from '@src/dtos/Auth.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
-import type { Secrets } from '@src/types/envVariables'
 import { authSchema } from '@src/validations/users/Auth.Validation'
 import bcrypt from 'bcryptjs'
-import { sign } from 'hono/jwt'
+import type { JWTManager } from '../jwtManager/JWTManager.Service'
 
 export class UserAuthService {
 	public constructor(
 		private readonly userRepository: UserRepository,
-		private readonly env: Secrets
+		private readonly jwtManager: JWTManager
 	) {}
 
 	public async execute(data: IAuthPasswordDTO): Promise<IAuthReturnDTO> {
@@ -25,7 +24,11 @@ export class UserAuthService {
 
 		await this.validatePassword(data.password, user.password)
 
-		const token = await this.generateToken(user)
+		const token = await this.jwtManager.generateToken({
+			id: user.id,
+			name: user.name,
+			username: user.username
+		})
 
 		return {
 			id: user.id,
@@ -84,47 +87,6 @@ export class UserAuthService {
 		}
 
 		return user
-	}
-
-	private async generateToken(user: User): Promise<{
-		accessToken: string
-		refreshToken: string
-		accessTokenExp: number
-	}> {
-		if (
-			!this.env.USER_SECRET_KEY ||
-			!this.env.REFRESH_SECRET_KEY ||
-			!this.env.AUTH_ISSUER
-		) {
-			throw new AppError({
-				name: 'Internal Server Error',
-				message: 'JWT secrets are not properly configured.'
-			})
-		}
-
-		const payloadAccessToken = {
-			id: user.id,
-			name: user.name,
-			username: user.username,
-			iss: this.env.AUTH_ISSUER,
-			iat: Math.floor(Date.now() / 1000),
-			exp: Math.floor(Date.now() / 1000) + 60 * 60
-		}
-
-		const payloadRefreshToken = {
-			id: user.id,
-			iss: this.env.AUTH_ISSUER,
-			iat: Math.floor(Date.now() / 1000),
-			exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30
-		}
-
-		const accessToken = await sign(payloadAccessToken, this.env.USER_SECRET_KEY)
-		const refreshToken = await sign(
-			payloadRefreshToken,
-			this.env.REFRESH_SECRET_KEY
-		)
-
-		return { accessToken, refreshToken, accessTokenExp: payloadAccessToken.exp }
 	}
 
 	private validation(data: IAuthPasswordDTO): void {
