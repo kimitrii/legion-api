@@ -20,6 +20,8 @@ export class CreateUserService {
 			user.password = encryptedPassword
 		}
 
+		user.isTotpEnable = data.isTotpEnable === true
+
 		const createdUser = await this.userRepository.create(user)
 
 		return this.sanitizeUser(createdUser)
