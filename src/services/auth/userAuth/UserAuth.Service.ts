@@ -23,6 +23,7 @@ export class UserAuthService {
 		const user = this.validateUserStatus(queryUser)
 
 		await this.validatePassword(data.password, user.password)
+		await this.reHashingPassword(data.password, user)
 
 		const token = await this.jwtManager.generateToken({
 			id: user.id,
@@ -41,6 +42,14 @@ export class UserAuthService {
 				expiresIn: token.accessTokenExp
 			}
 		}
+	}
+
+	private async reHashingPassword(password: string, user: User): Promise<void> {
+		const encryptedPassword = await bcrypt.hash(password, 10)
+
+		user.password = encryptedPassword
+
+		await this.userRepository.updatePassword(user)
 	}
 
 	private async validatePassword(
