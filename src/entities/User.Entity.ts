@@ -8,6 +8,7 @@ export class User {
 	public email?: string | null
 	public kats?: number | null
 	public rank?: number | null
+	public isTotpEnable!: boolean
 	public isActive!: boolean
 	public createdAt!: string
 	public deletedAt?: string | null

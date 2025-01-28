@@ -6,6 +6,7 @@ export interface IUsersDTO {
 	email?: string | null
 	kats?: number | null
 	rank?: number | null
+	isTotpEnable: boolean
 	isActive: boolean
 	createdAt: string
 	deletedAt?: string | null
