@@ -25,6 +25,7 @@ describe('Update User handler E2E', () => {
 			password: 'secureP@ssw0rd!',
 			email: 'johndoe@example.com',
 			isActive: true,
+			isTotpEnable: false,
 			deletedAt: null,
 			kats: 0,
 			rank: 0,

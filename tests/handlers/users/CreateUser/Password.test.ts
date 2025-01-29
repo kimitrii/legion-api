@@ -26,6 +26,7 @@ describe('User password encryption - E2E', () => {
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe123',
+			isTotpEnable: false,
 			password: 'secureP@ssw0rd!',
 			email: 'johndoe@example.com'
 		})

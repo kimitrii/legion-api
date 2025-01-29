@@ -25,6 +25,7 @@ describe('Delete User handler E2E', () => {
 			username: 'johndoe123',
 			password: 'secureP@ssw0rd!',
 			email: 'johndoe@example.com',
+			isTotpEnable: false,
 			isActive: true,
 			deletedAt: null,
 			kats: 0,
