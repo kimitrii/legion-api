@@ -1,4 +1,4 @@
-import type { IUsersDTO } from '@src/dtos/User.DTO'
+import type { ISanitizedUserDTO, IUsersDTO } from '@src/dtos/User.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
@@ -7,7 +7,7 @@ import { updateUserSchema } from '@src/validations/users/UpdateUser.Validation'
 export class UpdateUserService {
 	public constructor(private readonly userRepository: UserRepository) {}
 
-	public async execute(data: IUsersDTO): Promise<User> {
+	public async execute(data: IUsersDTO): Promise<ISanitizedUserDTO> {
 		this.validation(data)
 
 		await this.ensureUserExists(data.id)
@@ -19,14 +19,15 @@ export class UpdateUserService {
 		return this.sanitizeUser(updatedUser)
 	}
 
-	private sanitizeUser(user: User): User {
-		user.password = undefined
-		user.kats = undefined
-		user.rank = undefined
-		user.deletedAt = user.deletedAt === null ? undefined : user.deletedAt
-		user.restoredAt = user.restoredAt === null ? undefined : user.restoredAt
+	private sanitizeUser(user: User): ISanitizedUserDTO {
+		const { password, kats, rank, isTotpEnable, ...sanitizeUser } = user
 
-		return user
+		sanitizeUser.deletedAt =
+			user.deletedAt === null ? undefined : user.deletedAt
+		sanitizeUser.restoredAt =
+			user.restoredAt === null ? undefined : user.restoredAt
+
+		return sanitizeUser
 	}
 
 	private async ensureUserExists(userId: string): Promise<User> {

@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `isTotpEnable` integer DEFAULT false NOT NULL;

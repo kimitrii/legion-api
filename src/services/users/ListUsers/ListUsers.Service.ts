@@ -1,4 +1,5 @@
 import type { IListDTO, IListResultDTO } from '@src/dtos/List.DTO'
+import type { ISanitizedUserDTO } from '@src/dtos/User.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
@@ -7,7 +8,9 @@ import { listUsersSchema } from '@src/validations/users/ListUsers.Validation'
 export class ListUsersService {
 	public constructor(private readonly userRepository: UserRepository) {}
 
-	public async execute(data: IListDTO): Promise<IListResultDTO<User>> {
+	public async execute(
+		data: IListDTO
+	): Promise<IListResultDTO<ISanitizedUserDTO>> {
 		this.validation(data)
 
 		const users = await this.userRepository.findAll({
@@ -35,12 +38,15 @@ export class ListUsersService {
 		}
 	}
 
-	private sanitizeUser(users: User[]): User[] {
+	private sanitizeUser(users: User[]): ISanitizedUserDTO[] {
 		const sanitizedUsers = users.map((user) => {
-			user.password = undefined
-			user.deletedAt = user.deletedAt === null ? undefined : user.deletedAt
-			user.restoredAt = user.restoredAt === null ? undefined : user.restoredAt
-			return user
+			const { password, isTotpEnable, ...sanitizeUser } = user
+
+			sanitizeUser.deletedAt =
+				user.deletedAt === null ? undefined : user.deletedAt
+			sanitizeUser.restoredAt =
+				user.restoredAt === null ? undefined : user.restoredAt
+			return sanitizeUser
 		})
 
 		return sanitizedUsers

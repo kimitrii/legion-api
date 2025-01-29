@@ -6,8 +6,14 @@ export interface IUsersDTO {
 	email?: string | null
 	kats?: number | null
 	rank?: number | null
+	isTotpEnable: boolean
 	isActive: boolean
 	createdAt: string
 	deletedAt?: string | null
 	restoredAt?: string | null
 }
+
+export type ISanitizedUserDTO = Omit<
+	IUsersDTO,
+	'password' | 'kats' | 'rank' | 'isTotpEnable'
+>

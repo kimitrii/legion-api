@@ -1,5 +1,5 @@
 import type { IListDTO, IListResultDTO } from '@src/dtos/List.DTO'
-import type { User } from '@src/entities/User.Entity'
+import type { ISanitizedUserDTO } from '@src/dtos/User.DTO'
 import { UserRepository } from '@src/repositories/users/User.Repository'
 import { ListUsersService } from '@src/services/users/ListUsers/ListUsers.Service'
 import type { Presenter } from '@src/types/presenter'
@@ -12,7 +12,9 @@ export const ListUsersHandler = factory.createHandlers(
 	logger(),
 	async (
 		c
-	): Promise<TypedResponse<Presenter<IListResultDTO<User>>, StatusCode>> => {
+	): Promise<
+		TypedResponse<Presenter<IListResultDTO<ISanitizedUserDTO>>, StatusCode>
+	> => {
 		const usersRepository = new UserRepository(c.env.DB)
 		const listUsersService = new ListUsersService(usersRepository)
 

@@ -1,4 +1,5 @@
 import type { IIdDTO } from '@src/dtos/Id.DTO'
+import type { ISanitizedUserDTO } from '@src/dtos/User.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
@@ -7,7 +8,7 @@ import { idSchema } from '@src/validations/id/Id.Validation'
 export class DeleteUserService {
 	public constructor(private readonly userRepository: UserRepository) {}
 
-	public async execute(data: IIdDTO): Promise<User> {
+	public async execute(data: IIdDTO): Promise<ISanitizedUserDTO> {
 		this.validation(data)
 
 		await this.isDeleted(data)
@@ -17,11 +18,10 @@ export class DeleteUserService {
 		return this.sanitizeUser(deletedUser)
 	}
 
-	private sanitizeUser(user: User): User {
-		user.password = undefined
-		user.restoredAt = undefined
+	private sanitizeUser(user: User): ISanitizedUserDTO {
+		const { password, restoredAt, isTotpEnable, ...sanitizeUser } = user
 
-		return user
+		return sanitizeUser
 	}
 
 	private async isDeleted(user: IIdDTO): Promise<void> {

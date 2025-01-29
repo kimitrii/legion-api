@@ -8,6 +8,7 @@ export const users = sqliteTable('users', {
 	email: text({ length: 256 }),
 	kats: integer().default(0),
 	rank: integer(),
+	isTotpEnable: integer({ mode: 'boolean' }).notNull().default(false),
 	isActive: integer({ mode: 'boolean' }).notNull().default(true),
 	createdAt: text().notNull(),
 	deletedAt: text({ length: 24 }),

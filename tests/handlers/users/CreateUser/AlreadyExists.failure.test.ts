@@ -33,6 +33,7 @@ describe('Create User failure tests', () => {
 			username: 'johndoe123',
 			password: 'secureP@ssw0rd!',
 			email: 'johndoe@example.com',
+			isTotpEnable: false,
 			isActive: true,
 			deletedAt: null,
 			kats: 0,
@@ -55,7 +56,8 @@ describe('Create User failure tests', () => {
 
 		const payload = {
 			name: 'John Doe',
-			username: 'johndoe1234'
+			username: 'johndoe1234',
+			isTotpEnable: false
 		} as IUsersDTO
 
 		await expect(createUserService.execute(payload)).rejects.toThrowError(
@@ -70,6 +72,7 @@ describe('Create User failure tests', () => {
 			username: 'johndoe123',
 			password: 'secureP@ssw0rd!',
 			email: 'johndoe@example.com',
+			isTotpEnable: false,
 			isActive: true,
 			deletedAt: null,
 			kats: 0,
@@ -80,7 +83,8 @@ describe('Create User failure tests', () => {
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe123',
-			password: 'secureP@ssw0rd!'
+			password: 'secureP@ssw0rd!',
+			isTotpEnable: false
 		})
 
 		const res = await app.request(
@@ -110,6 +114,7 @@ describe('Create User failure tests', () => {
 			id: '01JHBDWAXFPAKAFK38E1MAM01W',
 			name: 'John Doe',
 			username: 'johndoe123',
+			isTotpEnable: false,
 			password: 'secureP@ssw0rd!',
 			email: 'johndoe@example.com',
 			isActive: true,
@@ -122,7 +127,8 @@ describe('Create User failure tests', () => {
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe1234',
-			email: 'johndoe@example.com'
+			email: 'johndoe@example.com',
+			isTotpEnable: false
 		})
 
 		const res = await app.request(

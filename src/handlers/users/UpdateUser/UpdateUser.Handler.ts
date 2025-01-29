@@ -1,4 +1,4 @@
-import type { User } from '@src/entities/User.Entity'
+import type { ISanitizedUserDTO } from '@src/dtos/User.DTO'
 import { AppError } from '@src/errors/AppErrors.Error'
 import { UserRepository } from '@src/repositories/users/User.Repository'
 import { UpdateUserService } from '@src/services/users/UpdateUser/UpdateUser.Service'
@@ -10,7 +10,9 @@ import type { StatusCode } from 'hono/utils/http-status'
 
 export const UpdateUserHandler = factory.createHandlers(
 	logger(),
-	async (c): Promise<TypedResponse<Presenter<User>, StatusCode>> => {
+	async (
+		c
+	): Promise<TypedResponse<Presenter<ISanitizedUserDTO>, StatusCode>> => {
 		const usersRepository = new UserRepository(c.env.DB)
 		const updateUserService = new UpdateUserService(usersRepository)
 

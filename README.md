@@ -276,6 +276,7 @@ Allows the creation of a new user in the Legion ecosystem.
 > |---------------|-----------|----------|-------------------------------------|
 > | name          |  string   |**yes**| 	The name for the new user. |
 > | username      |  string   |**yes**| 	The username for the new user. |
+> | isTotpEnable  |  string   |**yes** | 	If `true` the endpoint will return the otpauth URL used by Auth Apps (e.g., Google Authenticator) to register a new TOTP token.    |
 > | password      |  string   |**no** | 	The password for the user. |
 > | email         |  string   |**no** | 	The email for the user.    |
 

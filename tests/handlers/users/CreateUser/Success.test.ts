@@ -26,7 +26,8 @@ describe('Create User handler E2E', () => {
 			name: 'John Doe',
 			username: 'johndoe123',
 			password: 'secureP@ssw0rd!',
-			email: 'johndoe@example.com'
+			email: 'johndoe@example.com',
+			isTotpEnable: false
 		})
 
 		const res = await app.request(
@@ -56,6 +57,7 @@ describe('Create User handler E2E', () => {
 				name: 'John Doe',
 				username: 'johndoe123',
 				email: 'johndoe@example.com',
+				isTotpEnable: false,
 				isActive: true,
 				createdAt: user.createdAt
 			}
@@ -65,6 +67,7 @@ describe('Create User handler E2E', () => {
 	test('should create user successfully with username', async () => {
 		const payload = JSON.stringify({
 			name: 'John Doe',
+			isTotpEnable: false,
 			username: 'johndoe123'
 		})
 
@@ -94,6 +97,7 @@ describe('Create User handler E2E', () => {
 				id: user.id,
 				name: 'John Doe',
 				username: 'johndoe123',
+				isTotpEnable: false,
 				isActive: true,
 				createdAt: user.createdAt
 			}
@@ -104,6 +108,7 @@ describe('Create User handler E2E', () => {
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe123',
+			isTotpEnable: false,
 			email: 'johndoe@example.com'
 		})
 
@@ -134,6 +139,7 @@ describe('Create User handler E2E', () => {
 				name: 'John Doe',
 				username: 'johndoe123',
 				email: 'johndoe@example.com',
+				isTotpEnable: false,
 				isActive: true,
 				createdAt: user.createdAt
 			}
@@ -144,6 +150,7 @@ describe('Create User handler E2E', () => {
 		const payload = JSON.stringify({
 			name: 'John Doe',
 			username: 'johndoe123',
+			isTotpEnable: false,
 			password: 'secureP@ssw0rd!'
 		})
 
@@ -173,6 +180,7 @@ describe('Create User handler E2E', () => {
 				id: user.id,
 				name: 'John Doe',
 				username: 'johndoe123',
+				isTotpEnable: false,
 				isActive: true,
 				createdAt: user.createdAt
 			}
