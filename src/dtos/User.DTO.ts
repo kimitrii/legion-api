@@ -12,3 +12,8 @@ export interface IUsersDTO {
 	deletedAt?: string | null
 	restoredAt?: string | null
 }
+
+export type ISanitizedUserDTO = Omit<
+	IUsersDTO,
+	'password' | 'kats' | 'rank' | 'isTotpEnable'
+>
