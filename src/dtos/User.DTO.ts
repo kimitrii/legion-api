@@ -16,6 +16,4 @@ export interface IUsersDTO {
 export type ISanitizedUserDTO = Omit<
 	IUsersDTO,
 	'password' | 'kats' | 'rank' | 'isTotpEnable'
-> & {
-	otpauth?: string
-}
+>

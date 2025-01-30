@@ -14,7 +14,7 @@ export class Totp {
 		otpauthUrl?: string
 		error?: string
 	} {
-		const urlParamRegex = /^[A-Za-z0-9._-]+$/
+		const urlParamRegex = /^[A-Za-z0-9_-]+$/
 		if (!urlParamRegex.test(user)) {
 			return { error: 'Invalid user.' }
 		}

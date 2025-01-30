@@ -29,8 +29,7 @@ export default defineWorkersConfig(async () => {
 							TEST_MIGRATIONS: migrations,
 							USER_SECRET_KEY: process.env.USER_SECRET_KEY ?? '',
 							REFRESH_SECRET_KEY: process.env.REFRESH_SECRET_KEY ?? '',
-							AUTH_ISSUER: process.env.AUTH_ISSUER ?? '',
-							OTP_SECRET: process.env.OTP_SECRET ?? ''
+							AUTH_ISSUER: process.env.AUTH_ISSUER ?? ''
 						},
 						compatibilityDate: '2024-11-20',
 						compatibilityFlags: ['nodejs_compat']

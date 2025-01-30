@@ -57,6 +57,7 @@ describe('Create User handler E2E', () => {
 				name: 'John Doe',
 				username: 'johndoe123',
 				email: 'johndoe@example.com',
+				isTotpEnable: false,
 				isActive: true,
 				createdAt: user.createdAt
 			}
@@ -96,6 +97,7 @@ describe('Create User handler E2E', () => {
 				id: user.id,
 				name: 'John Doe',
 				username: 'johndoe123',
+				isTotpEnable: false,
 				isActive: true,
 				createdAt: user.createdAt
 			}
@@ -137,6 +139,7 @@ describe('Create User handler E2E', () => {
 				name: 'John Doe',
 				username: 'johndoe123',
 				email: 'johndoe@example.com',
+				isTotpEnable: false,
 				isActive: true,
 				createdAt: user.createdAt
 			}
@@ -177,53 +180,8 @@ describe('Create User handler E2E', () => {
 				id: user.id,
 				name: 'John Doe',
 				username: 'johndoe123',
+				isTotpEnable: false,
 				isActive: true,
-				createdAt: user.createdAt
-			}
-		})
-	})
-
-	test('should create user successfully and return otpauth', async () => {
-		const payload = JSON.stringify({
-			name: 'John Doe',
-			username: 'johndoe123',
-			password: 'secureP@ssw0rd!',
-			email: 'johndoe@example.com',
-			isTotpEnable: true
-		})
-
-		const res = await app.request(
-			'/users',
-			{
-				method: 'POST',
-				headers,
-				body: payload
-			},
-			env
-		)
-
-		const result = await res.json()
-
-		const [user] = await db
-			.select()
-			.from(users)
-			.where(eq(users.email, 'johndoe@example.com'))
-			.limit(1)
-
-		const otpRegex =
-			/^otpauth:\/\/totp\/[^?]+?\?secret=[A-Z2-7]+&issuer=[^&]+&algorithm=[A-Z0-9]+&digits=6&period=30$/
-
-		expect(res.status).toBe(201)
-		expect(result).toStrictEqual({
-			success: true,
-			message: 'User created successfully',
-			data: {
-				id: user.id,
-				name: 'John Doe',
-				username: 'johndoe123',
-				email: 'johndoe@example.com',
-				isActive: true,
-				otpauth: expect.stringMatching(otpRegex),
 				createdAt: user.createdAt
 			}
 		})
