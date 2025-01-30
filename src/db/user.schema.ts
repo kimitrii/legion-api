@@ -1,6 +1,4 @@
-import { relations } from 'drizzle-orm'
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
-import { otps } from './otp.schema'
 
 export const users = sqliteTable('users', {
 	id: text().notNull(),
@@ -16,7 +14,3 @@ export const users = sqliteTable('users', {
 	deletedAt: text({ length: 24 }),
 	restoredAt: text({ length: 24 })
 })
-
-export const usersRelations = relations(users, ({ many }) => ({
-	otps: many(otps)
-}))
