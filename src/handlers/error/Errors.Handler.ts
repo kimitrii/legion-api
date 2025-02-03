@@ -1,4 +1,5 @@
 import type { Context } from 'hono'
+import { HTTPException } from 'hono/http-exception'
 import type { HTTPResponseError } from 'hono/types'
 import type { StatusCode } from 'hono/utils/http-status'
 import {
@@ -57,7 +58,7 @@ export const errorsHandler = (
 		)
 	}
 
-	if (error.stack?.includes('csrf')) {
+	if (error instanceof HTTPException && error.stack?.includes('csrf')) {
 		return c.json(
 			{
 				success: false,
@@ -70,7 +71,7 @@ export const errorsHandler = (
 	return c.json(
 		{
 			success: false,
-			message: 'Internal server error',
+			message: error.message ?? 'Internal server error',
 			cause: error.cause
 		},
 		500
