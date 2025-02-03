@@ -133,7 +133,8 @@ export class UserRepository {
 			.set({
 				name: data.name,
 				username: data.username,
-				email: data.email
+				email: data.email,
+				isTotpEnable: data.isTotpEnable
 			})
 			.where(eq(users.id, data.id))
 
