@@ -1,4 +1,5 @@
 import { ulid } from 'ulid'
+import type { Otp } from './Otp.Entity'
 
 export class User {
 	public readonly id!: string
@@ -9,6 +10,7 @@ export class User {
 	public kats?: number | null
 	public rank?: number | null
 	public isTotpEnable!: boolean
+	public otps?: Otp[]
 	public isActive!: boolean
 	public createdAt!: string
 	public deletedAt?: string | null
