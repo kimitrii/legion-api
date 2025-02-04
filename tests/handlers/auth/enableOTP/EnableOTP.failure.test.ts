@@ -106,9 +106,9 @@ describe('Enable user otp failure cases E2E', () => {
 		})
 
 		const res = await app.request(
-			'/users/01JHBDWAXFPAKAFK38E1MAM01W/otp/verify',
+			'/users/01JHBDWAXFPAKAFK38E1MAM01W/otp',
 			{
-				method: 'POST',
+				method: 'PUT',
 				headers,
 				body: payload
 			},
@@ -157,9 +157,9 @@ describe('Enable user otp failure cases E2E', () => {
 		})
 
 		const res = await app.request(
-			'/users/01JHBDWAXFPAKAFK38E1MAM01W/otp/verify',
+			'/users/01JHBDWAXFPAKAFK38E1MAM01W/otp',
 			{
-				method: 'POST',
+				method: 'PUT',
 				headers,
 				body: payload
 			},
@@ -216,9 +216,9 @@ describe('Enable user otp failure cases E2E', () => {
 		})
 
 		const res = await app.request(
-			'/users/01JHBDWAXFPAKAFK38E1MAM01W/otp/verify',
+			'/users/01JHBDWAXFPAKAFK38E1MAM01W/otp',
 			{
-				method: 'POST',
+				method: 'PUT',
 				headers,
 				body: payload
 			},
