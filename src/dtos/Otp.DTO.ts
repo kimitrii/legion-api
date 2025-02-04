@@ -4,3 +4,8 @@ export interface IOtpDTO {
 	userId: string
 	createdAt: string
 }
+
+export interface IOtpParamsDTO {
+	token: string
+	userId: string
+}
