@@ -5,6 +5,6 @@ import { Hono } from 'hono'
 const authRouters = new Hono()
 
 authRouters.post('/users/login', ...UserAuthHandler)
-authRouters.post('/users/:id/otp/verify', ...EnableOtpHandler)
+authRouters.put('/users/:id/otp', ...EnableOtpHandler)
 
 export default authRouters
