@@ -2,7 +2,9 @@ import { applyD1Migrations, env } from 'cloudflare:test'
 import { users } from '@src/db/user.schema'
 import type { IUsersDTO } from '@src/dtos/User.DTO'
 import app from '@src/index'
+import { OtpRepository } from '@src/repositories/auth/Otp.Repository'
 import { UserRepository } from '@src/repositories/users/User.Repository'
+import { SetupUserOtpService } from '@src/services/auth/otp/SetupUserOTP.Service'
 import { CreateUserService } from '@src/services/users/CreateUser/CreateUser.Service'
 import { drizzle } from 'drizzle-orm/d1'
 import { afterEach, beforeAll, describe, expect, test, vitest } from 'vitest'
@@ -25,7 +27,12 @@ describe('Create User failure tests', () => {
 
 	test('should fail when user with id already exists - unity', async () => {
 		const usersRepository = new UserRepository(env.DB)
-		const createUserService = new CreateUserService(usersRepository)
+		const otpsRepository = new OtpRepository(env.DB)
+		const setupUserOTP = new SetupUserOtpService(otpsRepository, env.OTP_SECRET)
+		const createUserService = new CreateUserService(
+			usersRepository,
+			setupUserOTP
+		)
 
 		vitest.spyOn(usersRepository, 'findOneByOr').mockResolvedValueOnce({
 			id: '01JHBDWAXFPAKAFK38E1MAM01W',

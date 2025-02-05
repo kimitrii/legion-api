@@ -70,4 +70,17 @@ export class OtpRepository {
 
 		return totp[0]
 	}
+
+	public async delete(id: string): Promise<Otp[] | null> {
+		const process = await this.db
+			.delete(otps)
+			.where(eq(otps.userId, id))
+			.returning()
+
+		if (process.length === 0) {
+			return null
+		}
+
+		return process
+	}
 }
