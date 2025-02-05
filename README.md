@@ -96,6 +96,50 @@ This endpoint authenticates a user by verifying their email or username along wi
 </details>
 
 <details>
+ <summary><code>POST</code> 🔒 <code><b>/users/{userId}/otp/secret</b></code> <code>Generate One-Time Password (OTP) URL</code></summary>
+ 
+#### Generate One-Time Password (OTP) URL
+This endpoint generates a One-Time Password (OTP) authentication URL for a user. The client can use this URL to generate OTPs through an authenticator app (e.g., Google Authenticator, Microsoft Authenticator) linked to the user’s account.
+
+#### Request 
+
+> #### Header Parameters 
+> | name         |  required | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
+> | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+> | Authorization |  yes      | A Bearer token in the format `Bearer <JWT>` for authenticating the request and ensuring access.|
+
+#### Response 
+
+> #### Sample Successful Response 
+>
+> Status Code: `200` <br>
+> application/json
+>```json
+>{
+>    "success": true,
+>    "message": "Otp url generated successfully",
+>    "data": {
+>      "otpauthUrl": "otpauth://totp/jhondoe123?secret=LESZPGTBS5Y33CWCGYTP6CHTVETX5RRV&issuer=LegionKimitri&algorithm=SHA256&digits=6&period=30",
+>    }
+>}
+>```
+
+
+> #### Response Schema
+> application/json
+>| Key         | Type     | Description                                      |
+>|-------------|----------|--------------------------------------------------|
+>| success     | boolean  | Indicates whether the request was successful.    |
+>| message     | string   | A message providing additional context.          |
+>| data        | object   | Contains the generated OTP authentication URL.          |
+>| data.otpauthUrl     | string   | The OTP URL that can be used in an authenticator app.          |
+
+
+</details>
+
+<details>
  <summary><code>PUT</code> <code><b>/users/{userId}/otp</b></code> <code>Enable One-Time Password (OTP) Authentication</code></summary>
  
 #### Enable One-Time Password (OTP) Authentication
@@ -366,7 +410,7 @@ Allows the creation of a new user in the Legion ecosystem.
 </details>
 
 <details>
- <summary><code>PUT</code> <code><b>/users/{userId}</b></code> <code>Update User</code></summary>
+ <summary><code>PUT</code> 🔒 <code><b>/users/{userId}</b></code> <code>Update User</code></summary>
  
 #### Update User
 Allows updating user data but prevents updates if the `username` or `email` already exists in another user's account.
@@ -431,7 +475,7 @@ Allows updating user data but prevents updates if the `username` or `email` alre
 </details>
 
 <details>
- <summary><code>DELETE</code> <code><b>/users/{userId}</b></code> <code>Delete User</code></summary>
+ <summary><code>DELETE</code> 🔒 <code><b>/users/{userId}</b></code> <code>Delete User</code></summary>
  
 #### Delete User
 Allows soft deletion for users. When using this endpoint, users are marked as deleted without permanently removing their data from the database. This approach helps maintain data integrity and prevents potential issues with foreign key constraints.
