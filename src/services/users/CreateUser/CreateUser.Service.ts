@@ -1,19 +1,15 @@
 import type { ISanitizedUserDTO, IUsersDTO } from '@src/dtos/User.DTO'
-import { Otp } from '@src/entities/Otp.Entity'
 import { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
-import { Totp } from '@src/lib/totp'
-import { WebCryptoAES } from '@src/lib/webCryptoAES'
-import type { OtpRepository } from '@src/repositories/auth/Otp.Repository'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
+import type { SetupUserOtpService } from '@src/services/auth/otp/SetupUserOTP.Service'
 import { createUserSchema } from '@src/validations/users/CreateUser.Validation'
 import bcrypt from 'bcryptjs'
 
 export class CreateUserService {
 	public constructor(
 		private readonly userRepository: UserRepository,
-		private readonly otpsRepository: OtpRepository,
-		private readonly otpSecret: string
+		private readonly setupUserOTP: SetupUserOtpService
 	) {}
 
 	public async execute(data: IUsersDTO): Promise<ISanitizedUserDTO> {
@@ -31,9 +27,12 @@ export class CreateUserService {
 		user.isTotpEnable = false
 
 		const createdUser = await this.userRepository.create(user)
-		const otpauth = await this.generateOtpauth(createdUser, data.isTotpEnable)
+		const otpauth = await this.setupUserOTP.excecute(
+			createdUser,
+			data.isTotpEnable
+		)
 
-		return this.sanitizeUser(createdUser, otpauth)
+		return this.sanitizeUser(createdUser, otpauth.otpAuthUrl)
 	}
 
 	private sanitizeUser(user: User, otpauth?: string): ISanitizedUserDTO {
@@ -46,51 +45,6 @@ export class CreateUserService {
 			user.restoredAt === null ? undefined : user.restoredAt
 
 		return { ...sanitizeUser, otpauth }
-	}
-
-	private async generateOtpauth(
-		user: User,
-		isTotpEnable: boolean
-	): Promise<string | undefined> {
-		if (!isTotpEnable) {
-			return undefined
-		}
-
-		const totp = new Totp()
-
-		const secret = totp.generateSecret({
-			algorithm: 'SHA256',
-			service: 'LegionKimitri',
-			user: user.username
-		})
-
-		if (secret.error || !secret.secret || !secret.otpauthUrl) {
-			throw new AppError({
-				name: 'Internal Server Error',
-				message: 'Error in TOTP secret generation'
-			})
-		}
-
-		const webCryptoAES = new WebCryptoAES({ secret: this.otpSecret })
-
-		const hashedTotp = await webCryptoAES.encryptSymetric(secret.secret)
-
-		if (hashedTotp.error || !hashedTotp.cipherText) {
-			throw new AppError({
-				name: 'Internal Server Error',
-				message: 'Failed to generate TOTP'
-			})
-		}
-
-		const otp = new Otp({
-			otpHash: hashedTotp.cipherText,
-			userId: user.id,
-			createdAt: new Date().toISOString()
-		})
-
-		await this.otpsRepository.create(otp)
-
-		return secret.otpauthUrl
 	}
 
 	private async checkForConflict(user: User): Promise<void> {
