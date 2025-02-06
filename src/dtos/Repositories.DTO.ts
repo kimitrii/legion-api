@@ -1,6 +1,6 @@
 import type { IUsersDTO } from '@src/dtos/User.DTO'
 
-export type FindByParams = {
+export type IFindByParamsDTO = {
 	id?: string
 	email?: string | null
 	username?: string | null

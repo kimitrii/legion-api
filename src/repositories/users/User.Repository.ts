@@ -3,10 +3,10 @@ import type {
 	IPaginationParamsDTO,
 	PaginatedResult
 } from '@src/dtos/Pagination.DTO'
+import type { IFindByParamsDTO } from '@src/dtos/Repositories.DTO'
 import type { IUsersDTO } from '@src/dtos/User.DTO'
 import { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
-import type { FindByParams } from '@src/types/userRepository'
 import { and, count, eq, isNull, not, or } from 'drizzle-orm'
 import { type DrizzleD1Database, drizzle } from 'drizzle-orm/d1'
 
@@ -59,7 +59,7 @@ export class UserRepository {
 		email,
 		username,
 		andNot
-	}: FindByParams): Promise<User | null> {
+	}: IFindByParamsDTO): Promise<User | null> {
 		const includeConditions = []
 		const excludeConditions = []
 
