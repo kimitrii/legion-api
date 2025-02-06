@@ -1,54 +1,89 @@
-import type { IOtpDTO, IOtpParamsDTO } from '@src/dtos/Otp.DTO'
-import type { IUsersDTO } from '@src/dtos/User.DTO'
+import type { IAuthOtpDTO, IAuthReturnDTO } from '@src/dtos/Auth.DTO'
+import type { IOtpDTO } from '@src/dtos/Otp.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import { Totp } from '@src/lib/totp'
 import { WebCryptoAES } from '@src/lib/webCryptoAES'
 import type { OtpRepository } from '@src/repositories/auth/Otp.Repository'
-import type { UserRepository } from '@src/repositories/users/User.Repository'
-import { enableOTPSchema } from '@src/validations/users/EnableOTP.Validation'
+import { OTPAuthSchema } from '@src/validations/users/OTPAuth.Validation'
+import type { JWTManager } from '../jwtManager/JWTManager.Service'
 
-export class EnableOTPService {
+export class OTPAuthService {
 	public constructor(
 		private readonly otpRepository: OtpRepository,
-		private readonly userRepository: UserRepository,
+		private readonly jwtManager: JWTManager,
 		private readonly otpSecret: string
 	) {}
 
-	public async execute(data: IOtpParamsDTO): Promise<void> {
+	public async execute(data: IAuthOtpDTO): Promise<IAuthReturnDTO> {
 		this.validationInput(data)
 
-		const user = await this.getUserWithOTP(data.userId)
+		const user = await this.getUserWithOTP(data.username, data.email)
 
-		this.checkIfAlreadyEnable(user)
+		this.validateUserStatus(user)
 
 		const decryptedSecret = await this.decryptOTPSecret(user.otps[0].otpHash)
 
 		this.verifyOTP(decryptedSecret, data.token)
 
-		await this.enableUserOTP(user)
+		const token = await this.jwtManager.generateToken({
+			id: user.id,
+			name: user.name,
+			username: user.username
+		})
+
+		return {
+			id: user.id,
+			name: user.name,
+			username: user.username,
+			email: user.email ? user.email : undefined,
+			token: {
+				accessToken: token.accessToken,
+				refreshToken: token.refreshToken,
+				expiresIn: token.accessTokenExp
+			}
+		}
 	}
 
 	private async getUserWithOTP(
-		userId: string
+		username?: string,
+		email?: string
 	): Promise<User & { otps: IOtpDTO[] }> {
-		const user = await this.otpRepository.findManyByOr({ id: userId })
+		const user = await this.otpRepository.findManyByOr({
+			username,
+			email,
+			andNot: {}
+		})
 
 		if (!user || !user.otps?.length) {
 			throw new AppError({
 				name: 'Not Found',
-				message: 'No OTP found'
+				message: 'User not founded!'
 			})
 		}
 
 		return user
 	}
 
-	private checkIfAlreadyEnable(user: User): void {
-		if (user.isTotpEnable) {
+	private validateUserStatus(user: User): void {
+		if (!user.isTotpEnable) {
 			throw new AppError({
-				name: 'Conflict',
-				message: 'OTP is already enabled'
+				name: 'Forbidden',
+				message: 'OTP is not enabled'
+			})
+		}
+
+		if (user.deletedAt && !user.restoredAt) {
+			throw new AppError({
+				name: 'Not Found',
+				message: 'User has been deleted!'
+			})
+		}
+
+		if (!user.isActive) {
+			throw new AppError({
+				name: 'Not Found',
+				message: 'User is inactive!'
 			})
 		}
 	}
@@ -81,13 +116,15 @@ export class EnableOTPService {
 		}
 	}
 
-	private async enableUserOTP(user: IUsersDTO): Promise<void> {
-		user.isTotpEnable = true
-		await this.userRepository.update(user)
-	}
+	private validationInput(data: IAuthOtpDTO): void {
+		if (!data.email && !data.username) {
+			throw new AppError({
+				name: 'Bad Request',
+				message: 'Either email or username must be provided.'
+			})
+		}
 
-	private validationInput(data: IOtpParamsDTO): asserts data is IOtpParamsDTO {
-		const isValidData = enableOTPSchema.check(data)
+		const isValidData = OTPAuthSchema.check(data)
 
 		if (!isValidData.success) {
 			throw new AppError({
