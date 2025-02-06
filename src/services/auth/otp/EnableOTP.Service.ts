@@ -32,7 +32,7 @@ export class EnableOTPService {
 	private async getUserWithOTP(
 		userId: string
 	): Promise<User & { otps: IOtpDTO[] }> {
-		const user = await this.otpRepository.findByUser({ id: userId })
+		const user = await this.otpRepository.findManyByOr({ id: userId })
 
 		if (!user || !user.otps?.length) {
 			throw new AppError({
