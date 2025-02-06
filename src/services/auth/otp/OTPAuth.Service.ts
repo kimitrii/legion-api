@@ -20,7 +20,7 @@ export class OTPAuthService {
 
 		const user = await this.getUserWithOTP(data.username, data.email)
 
-		this.checkIfOtpEnable(user)
+		this.validateUserStatus(user)
 
 		const decryptedSecret = await this.decryptOTPSecret(user.otps[0].otpHash)
 
@@ -58,18 +58,32 @@ export class OTPAuthService {
 		if (!user || !user.otps?.length) {
 			throw new AppError({
 				name: 'Not Found',
-				message: 'No OTP found'
+				message: 'User not founded!'
 			})
 		}
 
 		return user
 	}
 
-	private checkIfOtpEnable(user: User): void {
+	private validateUserStatus(user: User): void {
 		if (!user.isTotpEnable) {
 			throw new AppError({
 				name: 'Forbidden',
 				message: 'OTP is not enabled'
+			})
+		}
+
+		if (user.deletedAt && !user.restoredAt) {
+			throw new AppError({
+				name: 'Not Found',
+				message: 'User has been deleted!'
+			})
+		}
+
+		if (!user.isActive) {
+			throw new AppError({
+				name: 'Not Found',
+				message: 'User is inactive!'
 			})
 		}
 	}
@@ -103,6 +117,13 @@ export class OTPAuthService {
 	}
 
 	private validationInput(data: IAuthOtpDTO): void {
+		if (!data.email && !data.username) {
+			throw new AppError({
+				name: 'Bad Request',
+				message: 'Either email or username must be provided.'
+			})
+		}
+
 		const isValidData = OTPAuthSchema.check(data)
 
 		if (!isValidData.success) {
