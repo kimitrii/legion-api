@@ -4,6 +4,12 @@ export type IAuthPasswordDTO = {
 	username?: string
 } & ({ email: string } | { username: string })
 
+export type IAuthOtpDTO = {
+	email?: string
+	token: string
+	username?: string
+} & ({ email: string } | { username: string })
+
 export interface IAuthReturnDTO {
 	id: string
 	name: string
