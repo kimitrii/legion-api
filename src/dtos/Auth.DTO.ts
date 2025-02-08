@@ -21,3 +21,7 @@ export interface IAuthReturnDTO {
 		expiresIn: number
 	}
 }
+
+export type ISanitizedAuthDTO = Omit<IAuthReturnDTO, 'token'> & {
+	token: Omit<IAuthReturnDTO['token'], 'refreshToken'>
+}
