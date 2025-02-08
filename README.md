@@ -68,15 +68,18 @@ This endpoint authenticates a user by verifying their email or username along wi
 >      "email": "john.doe@example.com",
 >      "token": {
 >        "accessToken": "eyJhbGciOiJIUzI1NiIsInR...",
->        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
 >        "expiresIn": "1737648644"
 >        },
 >    }
 >}
 >```
 
+> #### Response Header Parameters 
+> | name         |  name | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Set-Cookie   |  refreshToken      | Contains the `refreshToken` that is returned to the client in a HttpOnly cookie. This cookie is used for refreshing the user's `accessToken`|
 
-> #### Response Schema
+> #### Response Body
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
@@ -89,12 +92,9 @@ This endpoint authenticates a user by verifying their email or username along wi
 >| data.username    | string   | Username for the authenticated user.                           |
 >| data.token    | object   |   Contains authentication tokens and their expiry.|
 >| data.token.accessToken    | string   | 	The JWT access token.                            |
->| data.token.refreshToken    | string   | 	The JWT access refreshToken.                            |
 >| data.token.expiresIn    | string   | 	The token expiration time (UNIX timestamp).                           |
 
-
 </details>
-
 
 <details>
  <summary><code>POST</code> <code><b>/users/otp/login</b></code> <code>Authenticate User with OTP (One-Time Password)</code></summary>
@@ -134,15 +134,18 @@ This endpoint authenticates a user by verifying their email or username along wi
 >      "email": "john.doe@example.com",
 >      "token": {
 >        "accessToken": "eyJhbGciOiJIUzI1NiIsInR...",
->        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
 >        "expiresIn": "1737648644"
 >        },
 >    }
 >}
 >```
 
+> #### Response Header Parameters 
+> | name         |  name | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Set-Cookie   |  refreshToken      | Contains the `refreshToken` that is returned to the client in a HttpOnly cookie. This cookie is used for refreshing the user's `accessToken`|
 
-> #### Response Schema
+> #### Response Body Schema
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
@@ -193,7 +196,7 @@ This endpoint generates a One-Time Password (OTP) authentication URL for a user.
 >```
 
 
-> #### Response Schema
+> #### Response Body Schema
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
@@ -238,7 +241,7 @@ This endpoint enables One-Time Password (OTP) authentication for a user. The use
 >```
 
 
-> #### Response Schema
+> #### Response Body Schema
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
@@ -315,7 +318,7 @@ Retrieves a paginated list of users, with 20 users per page, including detailed 
 >```
 
 
-> #### Response Schema
+> #### Response Body Schema
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
@@ -393,7 +396,7 @@ Fetches detailed information about a specific user using the provided `id`. If t
 >```
 
 
-> #### Response Schema
+> #### Response Body Schema
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
@@ -458,7 +461,7 @@ Allows the creation of a new user in the Legion ecosystem.
 >```
 
 
-> #### Response Schema
+> #### Response Body Schema
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
@@ -524,7 +527,7 @@ Allows updating user data but prevents updates if the `username` or `email` alre
 >```
 
 
-> #### Response Schema
+> #### Response Body Schema
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
@@ -585,7 +588,7 @@ Allows soft deletion for users. When using this endpoint, users are marked as de
 >```
 
 
-> #### Response Schema
+> #### Response Body Schema
 > application/json
 >| Key         | Type     | Description                                      |
 >|-------------|----------|--------------------------------------------------|
