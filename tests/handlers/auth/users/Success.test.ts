@@ -56,9 +56,19 @@ describe('User authentication handler E2E', () => {
 
 		const result = await res.json()
 
+		const cookies = res.headers.getSetCookie()[0]
+
+		const refreshTokenRegex = cookies.match(/refreshToken=([^;]+)/)?.[1]
 		const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/
 
 		expect(res.status).toBe(200)
+		expect(cookies).toMatch(/refreshToken=/)
+		expect(cookies).toMatch(/HttpOnly/)
+		expect(cookies).toMatch(/Path=\/users\/auth\/refresh/)
+		expect(cookies).toMatch(/Secure/)
+		expect(cookies).toMatch(/SameSite=Strict/)
+		expect(cookies).toMatch(/Max-Age=2332800/)
+		expect(refreshTokenRegex).toMatch(jwtRegex)
 		expect(result).toStrictEqual({
 			success: true,
 			message: 'User authenticated successfully',
@@ -69,7 +79,6 @@ describe('User authentication handler E2E', () => {
 				email: 'johndoe@example.com',
 				token: {
 					accessToken: expect.stringMatching(jwtRegex),
-					refreshToken: expect.stringMatching(jwtRegex),
 					expiresIn: expect.any(Number)
 				}
 			}
@@ -110,9 +119,19 @@ describe('User authentication handler E2E', () => {
 
 		const result = await res.json()
 
+		const cookies = res.headers.getSetCookie()[0]
+
+		const refreshTokenRegex = cookies.match(/refreshToken=([^;]+)/)?.[1]
 		const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/
 
 		expect(res.status).toBe(200)
+		expect(cookies).toMatch(/refreshToken=/)
+		expect(cookies).toMatch(/HttpOnly/)
+		expect(cookies).toMatch(/Secure/)
+		expect(cookies).toMatch(/Path=\/users\/auth\/refresh/)
+		expect(cookies).toMatch(/SameSite=Strict/)
+		expect(cookies).toMatch(/Max-Age=2332800/)
+		expect(refreshTokenRegex).toMatch(jwtRegex)
 		expect(result).toStrictEqual({
 			success: true,
 			message: 'User authenticated successfully',
@@ -123,7 +142,6 @@ describe('User authentication handler E2E', () => {
 				email: 'johndoe@example.com',
 				token: {
 					accessToken: expect.stringMatching(jwtRegex),
-					refreshToken: expect.stringMatching(jwtRegex),
 					expiresIn: expect.any(Number)
 				}
 			}
@@ -163,7 +181,9 @@ describe('User authentication handler E2E', () => {
 		)
 
 		const result = await res.json()
+		const cookies = res.headers.getSetCookie()[0]
 
+		const refreshTokenRegex = cookies.match(/refreshToken=([^;]+)/)?.[1]
 		const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/
 
 		const rehashedUser = await db
@@ -173,6 +193,13 @@ describe('User authentication handler E2E', () => {
 			.limit(1)
 
 		expect(res.status).toBe(200)
+		expect(cookies).toMatch(/refreshToken=/)
+		expect(cookies).toMatch(/HttpOnly/)
+		expect(cookies).toMatch(/Secure/)
+		expect(cookies).toMatch(/SameSite=Strict/)
+		expect(cookies).toMatch(/Path=\/users\/auth\/refresh/)
+		expect(cookies).toMatch(/Max-Age=2332800/)
+		expect(refreshTokenRegex).toMatch(jwtRegex)
 		expect(result).toStrictEqual({
 			success: true,
 			message: 'User authenticated successfully',
@@ -183,7 +210,6 @@ describe('User authentication handler E2E', () => {
 				email: 'johndoe@example.com',
 				token: {
 					accessToken: expect.stringMatching(jwtRegex),
-					refreshToken: expect.stringMatching(jwtRegex),
 					expiresIn: expect.any(Number)
 				}
 			}
