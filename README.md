@@ -77,7 +77,7 @@ This endpoint authenticates a user by verifying their email or username along wi
 > #### Response Header Parameters 
 > | name         |  name | description                                                                                          |
 > |--------------|-----------|------------------------------------------------------------------------------------------------------|
-> | Set-Cookie   |  refreshToken      | Contains the `refreshToken` that is returned to the client in a HttpOnly cookie. This cookie is used for refreshing the user's `accessToken`|
+> | Set-Cookie   |  refreshToken      | Contains the `refreshToken` that is returned to the client in a HttpOnly cookie. This cookie is used for refreshing the user's `accessToken` and expires after **27 days**. Note that the `refreshToken` itself is valid for **30 days**|
 
 > #### Response Body
 > application/json
@@ -143,7 +143,7 @@ This endpoint authenticates a user by verifying their email or username along wi
 > #### Response Header Parameters 
 > | name         |  name | description                                                                                          |
 > |--------------|-----------|------------------------------------------------------------------------------------------------------|
-> | Set-Cookie   |  refreshToken      | Contains the `refreshToken` that is returned to the client in a HttpOnly cookie. This cookie is used for refreshing the user's `accessToken`|
+> | Set-Cookie   |  refreshToken      | Contains the `refreshToken` that is returned to the client in a HttpOnly cookie. This cookie is used for refreshing the user's `accessToken` and expires after **27 days**. Note that the `refreshToken` itself is valid for **30 days**|
 
 > #### Response Body Schema
 > application/json
