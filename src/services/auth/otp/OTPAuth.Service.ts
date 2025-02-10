@@ -5,7 +5,7 @@ import { AppError } from '@src/errors/AppErrors.Error'
 import { Totp } from '@src/lib/totp'
 import { WebCryptoAES } from '@src/lib/webCryptoAES'
 import type { OtpRepository } from '@src/repositories/auth/Otp.Repository'
-import { OTPAuthSchema } from '@src/validations/users/OTPAuth.Validation'
+import { OTPAuthSchema } from '@src/validations/auth/OTPAuth.Validation'
 import type { JWTManager } from '../jwtManager/JWTManager.Service'
 
 export class OTPAuthService {
