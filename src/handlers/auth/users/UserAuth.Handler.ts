@@ -1,5 +1,7 @@
 import type { ISanitizedAuthDTO } from '@src/dtos/Auth.DTO'
 import { AppError } from '@src/errors/AppErrors.Error'
+import { WebCryptoAES } from '@src/lib/webCryptoAES'
+import { RefreshTokenRepository } from '@src/repositories/auth/RefreshToken.Repository'
 import { UserRepository } from '@src/repositories/users/User.Repository'
 import { JWTManager } from '@src/services/auth/jwtManager/JWTManager.Service'
 import { UserAuthService } from '@src/services/auth/userAuth/UserAuth.Service'
@@ -23,14 +25,30 @@ export const UserAuthHandler = factory.createHandlers(
 			REFRESH_SECRET_KEY: c.env.REFRESH_SECRET_KEY,
 			AUTH_ISSUER: c.env.AUTH_ISSUER
 		})
-		const userAuthService = new UserAuthService(usersRepository, jwtManager)
+		const webCryptoAES = new WebCryptoAES({
+			secret: c.env.REFRESH_AES_KEY
+		})
+		const refreshTokenRepository = new RefreshTokenRepository(c.env.DB)
+		const userAuthService = new UserAuthService(
+			usersRepository,
+			jwtManager,
+			refreshTokenRepository,
+			webCryptoAES
+		)
 
-		const data = await c.req.json().catch(() => {
+		const body = await c.req.json().catch(() => {
 			throw new AppError({
 				name: 'Bad Request',
 				message: 'Invalid JSON format in request body'
 			})
 		})
+
+		const userAgent = c.req.header('User-Agent')
+
+		const data = {
+			userAgent,
+			...body
+		}
 
 		const user = await userAuthService.execute(data)
 
