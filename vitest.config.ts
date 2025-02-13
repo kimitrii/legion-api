@@ -20,6 +20,7 @@ export default defineWorkersConfig(async () => {
 			globals: true,
 			poolOptions: {
 				workers: {
+					singleWorker: true,
 					isolatedStorage: true,
 					miniflare: {
 						d1Databases: {
@@ -29,6 +30,7 @@ export default defineWorkersConfig(async () => {
 							TEST_MIGRATIONS: migrations,
 							USER_SECRET_KEY: process.env.USER_SECRET_KEY ?? '',
 							REFRESH_SECRET_KEY: process.env.REFRESH_SECRET_KEY ?? '',
+							REFRESH_AES_KEY: process.env.REFRESH_AES_KEY ?? '',
 							AUTH_ISSUER: process.env.AUTH_ISSUER ?? '',
 							OTP_SECRET: process.env.OTP_SECRET ?? ''
 						},
