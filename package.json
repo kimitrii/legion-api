@@ -15,12 +15,12 @@
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"drizzle-orm": "^0.36.4",
-		"hono": "^4.6.14",
+		"hono": "^4.7.0",
 		"ulid": "^2.3.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@cloudflare/vitest-pool-workers": "^0.5.39",
+		"@cloudflare/vitest-pool-workers": "^0.5.41",
 		"@cloudflare/workers-types": "^4.20241218.0",
 		"@commitlint/cli": "^19.6.1",
 		"@commitlint/config-conventional": "^19.6.0",
