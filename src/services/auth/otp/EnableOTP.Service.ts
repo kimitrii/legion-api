@@ -6,7 +6,7 @@ import { Totp } from '@src/lib/totp'
 import { WebCryptoAES } from '@src/lib/webCryptoAES'
 import type { OtpRepository } from '@src/repositories/auth/Otp.Repository'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
-import { enableOTPSchema } from '@src/validations/users/EnableOTP.Validation'
+import { enableOTPSchema } from '@src/validations/auth/EnableOTP.Validation'
 
 export class EnableOTPService {
 	public constructor(
