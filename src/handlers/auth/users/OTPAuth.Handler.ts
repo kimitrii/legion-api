@@ -1,6 +1,8 @@
 import type { ISanitizedAuthDTO } from '@src/dtos/Auth.DTO'
 import { AppError } from '@src/errors/AppErrors.Error'
+import { WebCryptoAES } from '@src/lib/webCryptoAES'
 import { OtpRepository } from '@src/repositories/auth/Otp.Repository'
+import { RefreshTokenRepository } from '@src/repositories/auth/RefreshToken.Repository'
 import { JWTManager } from '@src/services/auth/jwtManager/JWTManager.Service'
 import { OTPAuthService } from '@src/services/auth/otp/OTPAuth.Service'
 import type { Presenter } from '@src/types/presenter'
@@ -20,21 +22,34 @@ export const OtpAuthHandler = factory.createHandlers(
 			REFRESH_SECRET_KEY: c.env.REFRESH_SECRET_KEY,
 			AUTH_ISSUER: c.env.AUTH_ISSUER
 		})
+		const webCryptoAES = new WebCryptoAES({
+			secret: c.env.REFRESH_AES_KEY
+		})
 		const otpRepository = new OtpRepository(c.env.DB)
-		const userAuthService = new OTPAuthService(
+		const refreshTokenRepository = new RefreshTokenRepository(c.env.DB)
+		const otpAuthService = new OTPAuthService(
 			otpRepository,
 			jwtManager,
-			c.env.OTP_SECRET
+			c.env.OTP_SECRET,
+			refreshTokenRepository,
+			webCryptoAES
 		)
 
-		const data = await c.req.json().catch(() => {
+		const body = await c.req.json().catch(() => {
 			throw new AppError({
 				name: 'Bad Request',
 				message: 'Invalid JSON format in request body'
 			})
 		})
 
-		const user = await userAuthService.execute(data)
+		const userAgent = c.req.header('User-Agent')
+
+		const data = {
+			userAgent,
+			...body
+		}
+
+		const user = await otpAuthService.execute(data)
 
 		setCookie(c, 'refreshToken', user.token.refreshToken, {
 			secure: true,
