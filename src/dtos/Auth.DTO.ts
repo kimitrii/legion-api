@@ -2,12 +2,14 @@ export type IAuthPasswordDTO = {
 	email?: string
 	password: string
 	username?: string
+	userAgent: string
 } & ({ email: string } | { username: string })
 
 export type IAuthOtpDTO = {
 	email?: string
 	token: string
 	username?: string
+	userAgent: string
 } & ({ email: string } | { username: string })
 
 export interface IAuthReturnDTO {
@@ -24,4 +26,11 @@ export interface IAuthReturnDTO {
 
 export type ISanitizedAuthDTO = Omit<IAuthReturnDTO, 'token'> & {
 	token: Omit<IAuthReturnDTO['token'], 'refreshToken'>
+}
+
+export interface StoreRefreshTokenInput {
+	refreshToken: string
+	userAgent: string
+	userId: string
+	expiresAt: number
 }
