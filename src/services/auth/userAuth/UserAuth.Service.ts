@@ -2,7 +2,7 @@ import type { IAuthPasswordDTO, IAuthReturnDTO } from '@src/dtos/Auth.DTO'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
-import { authSchema } from '@src/validations/users/Auth.Validation'
+import { authSchema } from '@src/validations/auth/Auth.Validation'
 import bcrypt from 'bcryptjs'
 import type { JWTManager } from '../jwtManager/JWTManager.Service'
 
