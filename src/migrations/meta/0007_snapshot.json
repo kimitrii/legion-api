@@ -1,0 +1,213 @@
+{
+	"version": "6",
+	"dialect": "sqlite",
+	"id": "f264f3ee-55db-4e0b-b28a-7e6b6f3400f4",
+	"prevId": "46af9253-2c60-4079-b64a-d9591cceb5dd",
+	"tables": {
+		"users": {
+			"name": "users",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"name": {
+					"name": "name",
+					"type": "text(256)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"username": {
+					"name": "username",
+					"type": "text(256)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"password": {
+					"name": "password",
+					"type": "text(256)",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"email": {
+					"name": "email",
+					"type": "text(256)",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"kats": {
+					"name": "kats",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false,
+					"default": 0
+				},
+				"rank": {
+					"name": "rank",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"isTotpEnable": {
+					"name": "isTotpEnable",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"isActive": {
+					"name": "isActive",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"deletedAt": {
+					"name": "deletedAt",
+					"type": "text(24)",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				},
+				"restoredAt": {
+					"name": "restoredAt",
+					"type": "text(24)",
+					"primaryKey": false,
+					"notNull": false,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"otps": {
+			"name": "otps",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"otpHash": {
+					"name": "otpHash",
+					"type": "text(256)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		},
+		"refreshToken": {
+			"name": "refreshToken",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"token": {
+					"name": "token",
+					"type": "text(600)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"userAgent": {
+					"name": "userAgent",
+					"type": "text(256)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"expiresAt": {
+					"name": "expiresAt",
+					"type": "text(24)",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				},
+				"revoked": {
+					"name": "revoked",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false,
+					"default": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"autoincrement": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {},
+			"checkConstraints": {}
+		}
+	},
+	"views": {},
+	"enums": {},
+	"_meta": {
+		"schemas": {},
+		"tables": {},
+		"columns": {}
+	},
+	"internal": {
+		"indexes": {}
+	}
+}
