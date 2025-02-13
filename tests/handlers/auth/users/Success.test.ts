@@ -11,7 +11,8 @@ describe('User authentication handler E2E', () => {
 
 	const headers = {
 		'Content-Type': 'application/json',
-		'X-CSRF-Token': 'mock-csrf-token'
+		'X-CSRF-Token': 'mock-csrf-token',
+		'User-Agent': 'Vitest'
 	}
 
 	beforeAll(async () => {
