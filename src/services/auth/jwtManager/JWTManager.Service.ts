@@ -27,9 +27,10 @@ export class JWTManager {
 		accessToken: string
 		refreshToken: string
 		accessTokenExp: number
+		refreshTokenExp: number
 	}> {
 		const payloadAccessToken = {
-			id,
+			sub: id,
 			name,
 			username,
 			iss: this.issuer,
@@ -38,7 +39,7 @@ export class JWTManager {
 		}
 
 		const payloadRefreshToken = {
-			id,
+			sub: id,
 			iss: this.issuer,
 			iat: Math.floor(Date.now() / 1000),
 			exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30
@@ -47,6 +48,11 @@ export class JWTManager {
 		const accessToken = await sign(payloadAccessToken, this.userSecretyKey)
 		const refreshToken = await sign(payloadRefreshToken, this.refreshSecretKey)
 
-		return { accessToken, refreshToken, accessTokenExp: payloadAccessToken.exp }
+		return {
+			accessToken,
+			refreshToken,
+			accessTokenExp: payloadAccessToken.exp,
+			refreshTokenExp: payloadRefreshToken.exp
+		}
 	}
 }
