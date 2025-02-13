@@ -1,6 +1,13 @@
-import type { IAuthPasswordDTO, IAuthReturnDTO } from '@src/dtos/Auth.DTO'
+import type {
+	IAuthPasswordDTO,
+	IAuthReturnDTO,
+	StoreRefreshTokenInput
+} from '@src/dtos/Auth.DTO'
+import { RefreshToken } from '@src/entities/RefreshToken.Entity'
 import type { User } from '@src/entities/User.Entity'
 import { AppError } from '@src/errors/AppErrors.Error'
+import type { WebCryptoAES } from '@src/lib/webCryptoAES'
+import type { RefreshTokenRepository } from '@src/repositories/auth/RefreshToken.Repository'
 import type { UserRepository } from '@src/repositories/users/User.Repository'
 import { authSchema } from '@src/validations/auth/Auth.Validation'
 import bcrypt from 'bcryptjs'
@@ -9,7 +16,9 @@ import type { JWTManager } from '../jwtManager/JWTManager.Service'
 export class UserAuthService {
 	public constructor(
 		private readonly userRepository: UserRepository,
-		private readonly jwtManager: JWTManager
+		private readonly jwtManager: JWTManager,
+		private readonly refreshTokenRepository: RefreshTokenRepository,
+		private readonly webCryptoAES: WebCryptoAES
 	) {}
 
 	public async execute(data: IAuthPasswordDTO): Promise<IAuthReturnDTO> {
@@ -31,6 +40,15 @@ export class UserAuthService {
 			username: user.username
 		})
 
+		const hashedToken = await this.hashRefreshToken(token.refreshToken)
+
+		await this.storeRefreshToken({
+			expiresAt: token.refreshTokenExp,
+			refreshToken: hashedToken,
+			userAgent: data.userAgent,
+			userId: user.id
+		})
+
 		return {
 			id: user.id,
 			name: user.name,
@@ -42,6 +60,33 @@ export class UserAuthService {
 				expiresIn: token.accessTokenExp
 			}
 		}
+	}
+
+	private async hashRefreshToken(refreshToken: string): Promise<string> {
+		const encryptedClientToken =
+			await this.webCryptoAES.encryptSymetric(refreshToken)
+
+		if (!encryptedClientToken.cipherText || encryptedClientToken.error) {
+			throw new AppError({
+				name: 'Internal Server Error',
+				message: 'Internal Server Error'
+			})
+		}
+
+		return encryptedClientToken.cipherText
+	}
+
+	private async storeRefreshToken(data: StoreRefreshTokenInput): Promise<void> {
+		const refreshTokenData = {
+			revoked: false,
+			token: data.refreshToken,
+			userAgent: data.userAgent,
+			userId: data.userId,
+			expiresAt: new Date(data.expiresAt * 1000).toISOString()
+		}
+		const refreshToken = new RefreshToken(refreshTokenData)
+
+		await this.refreshTokenRepository.create(refreshToken)
 	}
 
 	private async reHashingPassword(password: string, user: User): Promise<void> {

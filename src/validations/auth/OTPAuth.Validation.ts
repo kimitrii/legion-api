@@ -4,7 +4,8 @@ export const OTPAuthSchema = validator.schema(
 	{
 		username: validator.string().max(256).nullable(),
 		email: validator.string().email().max(256).nullable(),
-		token: validator.string().max(10).min(1)
+		token: validator.string().max(10).min(1),
+		userAgent: validator.string().max(256).nullable()
 	},
 	{
 		strict: true

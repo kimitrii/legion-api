@@ -4,6 +4,8 @@ export type IFindByParamsDTO = {
 	id?: string
 	email?: string | null
 	username?: string | null
+	revoked?: boolean
+	noExpired?: boolean
 	andNot?: Partial<Record<keyof IUsersDTO, string>>
 } & (
 	| { id: string }

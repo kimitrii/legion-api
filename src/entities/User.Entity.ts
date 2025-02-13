@@ -1,5 +1,6 @@
 import { ulid } from 'ulid'
 import type { Otp } from './Otp.Entity'
+import type { RefreshToken } from './RefreshToken.Entity'
 
 export class User {
 	public readonly id!: string
@@ -11,6 +12,7 @@ export class User {
 	public rank?: number | null
 	public isTotpEnable!: boolean
 	public otps?: Otp[]
+	public refreshToken?: RefreshToken[]
 	public isActive!: boolean
 	public createdAt!: string
 	public deletedAt?: string | null
