@@ -177,13 +177,9 @@ This endpoint refreshes an expired access token by validating the provided refre
 > |--------------|-----------|------------------------------------------------------------------------------------------------------|
 > | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
 > | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+> | Authorization |  yes      | Access Token, a Bearer token in the format `Bearer <JWT>` for authenticating the request and ensuring access.|
 
 **Note**: The `refreshToken` is automatically sent by the browser in the `Cookie` header if the client has a valid session. It does not need to be manually set in the request.
-
-> #### Body Schema
-> | name          |  type     | Required | description                         |
-> |---------------|-----------|----------|-------------------------------------|
-> | accessToken      |  string   |**yes** | 	The current expired JWT access token. |
 
 #### Response 
 
