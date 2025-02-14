@@ -25,7 +25,7 @@ export const GenerateOtpAuthUrlHandler = factory.createHandlers(
 			otpRepository
 		)
 
-		const id = c.req.param('id')
+		const id = c.req.param('id') ?? ''
 
 		const otpUrl = await generateOtpAuthUrlService.execute({ id })
 

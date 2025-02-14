@@ -16,7 +16,7 @@ export const GetUserByIdHandler = factory.createHandlers(
 		const usersRepository = new UserRepository(c.env.DB)
 		const getUserByIdService = new GetUserByIdService(usersRepository)
 
-		const id = c.req.param('id')
+		const id = c.req.param('id') ?? ''
 
 		const queryParameters = c.req.query('includeDeleted')
 

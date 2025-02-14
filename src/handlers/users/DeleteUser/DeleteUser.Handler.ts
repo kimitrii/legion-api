@@ -15,7 +15,7 @@ export const DeleteUserHandler = factory.createHandlers(
 		const usersRepository = new UserRepository(c.env.DB)
 		const deleteUserService = new DeleteUserService(usersRepository)
 
-		const id = c.req.param('id')
+		const id = c.req.param('id') ?? ''
 
 		const data = { id }
 

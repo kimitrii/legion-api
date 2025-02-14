@@ -1,7 +1,7 @@
 import type { Context } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import type { HTTPResponseError } from 'hono/types'
-import type { StatusCode } from 'hono/utils/http-status'
+import type { ContentfulStatusCode } from 'hono/utils/http-status'
 import {
 	JwtAlgorithmNotImplemented,
 	JwtHeaderInvalid,
@@ -16,7 +16,7 @@ export const errorsHandler = (
 	error: Error | HTTPResponseError,
 	c: Context
 ): Response | Promise<Response> => {
-	const errorMap: Record<string, { status: StatusCode }> = {
+	const errorMap: Record<string, { status: ContentfulStatusCode }> = {
 		'Bad Request': { status: 400 },
 		Unauthorized: { status: 401 },
 		Forbidden: { status: 403 },

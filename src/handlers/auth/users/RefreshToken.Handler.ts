@@ -1,5 +1,4 @@
 import type { ISanitizedAuthDTO } from '@src/dtos/Auth.DTO'
-import { AppError } from '@src/errors/AppErrors.Error'
 import { WebCryptoAES } from '@src/lib/webCryptoAES'
 import { RefreshTokenRepository } from '@src/repositories/auth/RefreshToken.Repository'
 import { JWTManager } from '@src/services/auth/jwtManager/JWTManager.Service'
@@ -34,18 +33,14 @@ export const RefreshTokenHandler = factory.createHandlers(
 			webCryptoAES
 		)
 
-		const accessToken = await c.req.json().catch(() => {
-			throw new AppError({
-				name: 'Bad Request',
-				message: 'Invalid JSON format in request body'
-			})
-		})
+		const authorization = c.req.header('authorization') ?? ''
+		const accessToken = authorization.split(' ')[1]
 
-		const userAgent = c.req.header('User-Agent')
+		const userAgent = c.req.header('User-Agent') ?? ''
 
-		const refreshToken = getCookie(c, 'refreshToken')
+		const refreshToken = getCookie(c, 'refreshToken') ?? ''
 
-		const data = { refreshToken, userAgent, ...accessToken }
+		const data = { refreshToken, userAgent, accessToken }
 
 		const user = await refreshTokenService.execute(data)
 
