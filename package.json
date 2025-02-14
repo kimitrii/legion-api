@@ -15,20 +15,20 @@
 	"dependencies": {
 		"bcryptjs": "^2.4.3",
 		"drizzle-orm": "^0.36.4",
-		"hono": "^4.7.0",
+		"hono": "^4.7.1",
 		"ulid": "^2.3.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@cloudflare/vitest-pool-workers": "^0.5.41",
 		"@cloudflare/workers-types": "^4.20250204.0",
-		"@commitlint/cli": "^19.6.1",
-		"@commitlint/config-conventional": "^19.6.0",
+		"@commitlint/cli": "^19.7.1",
+		"@commitlint/config-conventional": "^19.7.1",
 		"@types/bcryptjs": "^2.4.6",
 		"dotenv": "^16.4.7",
 		"drizzle-kit": "^0.28.1",
 		"husky": "^9.1.7",
 		"vitest": "^2.1.9",
-		"wrangler": "^3.108.1"
+		"wrangler": "^3.109.1"
 	}
 }
