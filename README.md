@@ -75,9 +75,9 @@ This endpoint authenticates a user by verifying their email or username along wi
 >```
 
 > #### Response Header Parameters 
-> | name         |  name | description                                                                                          |
+> | name         |  value | description                                                                                          |
 > |--------------|-----------|------------------------------------------------------------------------------------------------------|
-> | Set-Cookie   |  refreshToken      | Contains the `refreshToken` that is returned to the client in a HttpOnly cookie. This cookie is used for refreshing the user's `accessToken` and expires after **27 days**. Note that the `refreshToken` itself is valid for **30 days**|
+> | Set-Cookie   |  refreshToken=<new_token>; Max-Age=<max_age>; Path=/users/auth/refresh; HttpOnly; Secure; SameSite=Strict     | A new `refreshToken` is issued as an HTTP-only cookie. The cookie itself expires after 27 days, while the token remains valid for 30 days.|
 
 > #### Response Body
 > application/json
@@ -141,9 +141,9 @@ This endpoint authenticates a user by verifying their email or username along wi
 >```
 
 > #### Response Header Parameters 
-> | name         |  name | description                                                                                          |
+> | name         |  value | description                                                                                          |
 > |--------------|-----------|------------------------------------------------------------------------------------------------------|
-> | Set-Cookie   |  refreshToken      | Contains the `refreshToken` that is returned to the client in a HttpOnly cookie. This cookie is used for refreshing the user's `accessToken` and expires after **27 days**. Note that the `refreshToken` itself is valid for **30 days**|
+> | Set-Cookie   |  refreshToken=<new_token>; Max-Age=<max_age>; Path=/users/auth/refresh; HttpOnly; Secure; SameSite=Strict     | A new `refreshToken` is issued as an HTTP-only cookie. The cookie itself expires after 27 days, while the token remains valid for 30 days.|
 
 > #### Response Body Schema
 > application/json
@@ -163,6 +163,73 @@ This endpoint authenticates a user by verifying their email or username along wi
 
 
 </details>
+
+<details>
+ <summary><code>POST</code> <code><b>/users/auth/refresh</b></code> <code>Refresh User Acess Token</code></summary>
+ 
+#### Refresh User Acess Token
+This endpoint refreshes an expired access token by validating the provided refresh token. If the refresh token matches a registered token in the database and both access token and refresh token has a valid signature, a new JSON Web Token (JWT) is generated and returned to the client. Additionally, a new refresh token is issued as an HTTP-only cookie, while the previous refresh token is revoked.
+
+#### Request 
+
+> #### Header Parameters 
+> | name         |  required | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Content-Type |  yes      | Required for operations with a request body. The value is application/. Where the 'format' is 'json'.|
+> | X-CSRF-Token |  yes      | A CSRF token to protect against cross-site request forgery attacks. Must be included in the request.|
+
+**Note**: The `refreshToken` is automatically sent by the browser in the `Cookie` header if the client has a valid session. It does not need to be manually set in the request.
+
+> #### Body Schema
+> | name          |  type     | Required | description                         |
+> |---------------|-----------|----------|-------------------------------------|
+> | accessToken      |  string   |**yes** | 	The current expired JWT access token. |
+
+#### Response 
+
+> #### Sample Successful Response 
+>
+> Status Code: `200` <br>
+> application/json
+>```json
+>{
+>    "success": true,
+>    "message": "Token refreshed successfully",
+>    "data": {
+>      "id": "01JEVAG858D9NP6A1NMTKXPRRA",
+>      "name": "John Doe",
+>      "username": "jhondoe123",
+>      "email": "john.doe@example.com",
+>      "token": {
+>        "accessToken": "eyJhbGciOiJIUzI1NiIsInR...",
+>        "expiresIn": "1737648644"
+>        },
+>    }
+>}
+>```
+
+> #### Response Header Parameters 
+> | name         |  value | description                                                                                          |
+> |--------------|-----------|------------------------------------------------------------------------------------------------------|
+> | Set-Cookie   |  refreshToken=<new_token>; Max-Age=<max_age>; Path=/users/auth/refresh; HttpOnly; Secure; SameSite=Strict     | A new `refreshToken` is issued as an HTTP-only cookie. The cookie itself expires after 27 days, while the token remains valid for 30 days.|
+
+> #### Response Body
+> application/json
+>| Key         | Type     | Description                                      |
+>|-------------|----------|--------------------------------------------------|
+>| success     | boolean  | Indicates whether the request was successful.    |
+>| message     | string   | A message providing additional context.          |
+>| data        | object   | Contains the authenticated user's details and tokens.            |
+>| data.id       | string   | Unique identifier for the authenticated user (ULID format).  |
+>| data.name     | string   | Name for the authenticated user.                             |
+>| data.email    | string   | Email for the authenticated user.                            |
+>| data.username    | string   | Username for the authenticated user.                           |
+>| data.token    | object   |   Contains authentication tokens and their expiry.|
+>| data.token.accessToken    | string   | 	The JWT access token.                            |
+>| data.token.expiresIn    | string   | 	The token expiration time (UNIX timestamp).                           |
+
+</details>
+
 
 <details>
  <summary><code>POST</code> 🔒 <code><b>/users/{userId}/otp/secret</b></code> <code>Generate One-Time Password (OTP) URL</code></summary>
