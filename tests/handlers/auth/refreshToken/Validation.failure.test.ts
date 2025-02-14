@@ -43,15 +43,13 @@ describe('Refresh Token Input Validation E2E', () => {
 			success: false,
 			message: 'Validation failed',
 			cause: {
-				cause: 'is not string',
+				cause: 'is not nullable',
 				field: 'accessToken'
 			}
 		})
 	})
 
-	test('should fail with accessToken not string', async () => {
-		const payload = JSON.stringify({})
-
+	test('should fail with accessToken undefined', async () => {
 		const res = await app.request(
 			'/users/auth/refresh',
 			{
@@ -62,8 +60,7 @@ describe('Refresh Token Input Validation E2E', () => {
 					'User-Agent': 'Vitest',
 					Cookie:
 						'refreshToken=324234234; Max-Age=2332800; Path=/users/auth/refresh; HttpOnly; Secure; SameSite=Strict'
-				},
-				body: payload
+				}
 			},
 			env
 		)
@@ -82,10 +79,6 @@ describe('Refresh Token Input Validation E2E', () => {
 	})
 
 	test('should fail with undefined refreshToken', async () => {
-		const payload = JSON.stringify({
-			accessToken: '123'
-		})
-
 		const res = await app.request(
 			'/users/auth/refresh',
 			{
@@ -93,9 +86,9 @@ describe('Refresh Token Input Validation E2E', () => {
 				headers: {
 					'Content-Type': 'application/json',
 					'X-CSRF-Token': 'mock-csrf-token',
+					Authorization: 'Bearer Mocktoken',
 					'User-Agent': 'Vitest'
-				},
-				body: payload
+				}
 			},
 			env
 		)
@@ -107,17 +100,13 @@ describe('Refresh Token Input Validation E2E', () => {
 			success: false,
 			message: 'Validation failed',
 			cause: {
-				cause: 'is not nullable',
+				cause: 'is not min',
 				field: 'refreshToken'
 			}
 		})
 	})
 
 	test('should fail with less them min refreshToken', async () => {
-		const payload = JSON.stringify({
-			accessToken: '123'
-		})
-
 		const res = await app.request(
 			'/users/auth/refresh',
 			{
@@ -126,10 +115,10 @@ describe('Refresh Token Input Validation E2E', () => {
 					'Content-Type': 'application/json',
 					'X-CSRF-Token': 'mock-csrf-token',
 					'User-Agent': 'Vitest',
+					Authorization: 'Bearer Mocktoken',
 					Cookie:
 						'refreshToken=; Max-Age=2332800; Path=/users/auth/refresh; HttpOnly; Secure; SameSite=Strict'
-				},
-				body: payload
+				}
 			},
 			env
 		)

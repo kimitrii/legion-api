@@ -90,10 +90,6 @@ describe('Refresh Token status failure cases E2E', () => {
 
 		await db.insert(refreshToken).values(refreshTokenInstance)
 
-		const payload = JSON.stringify({
-			accessToken: accessTokenGen
-		})
-
 		const res = await app.request(
 			'/users/auth/refresh',
 			{
@@ -102,9 +98,9 @@ describe('Refresh Token status failure cases E2E', () => {
 					'Content-Type': 'application/json',
 					'X-CSRF-Token': 'mock-csrf-token',
 					'User-Agent': 'Vitest',
+					Authorization: `Bearer ${accessTokenGen}`,
 					Cookie: `refreshToken=${refreshTokenGen}; Max-Age=2332800; Path=/users/auth/refresh; HttpOnly; Secure; SameSite=Strict`
-				},
-				body: payload
+				}
 			},
 			env
 		)
